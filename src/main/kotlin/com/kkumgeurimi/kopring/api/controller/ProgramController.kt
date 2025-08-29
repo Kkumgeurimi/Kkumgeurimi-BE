@@ -21,25 +21,25 @@ class ProgramController(
     fun searchPrograms(
         @Parameter(description = "관심 카테고리 (직무/전공) - 0-31", example = "0")
         @RequestParam(required = false) interestCategory: String?,
-        
+
         @Parameter(description = "체험유형", example = "field_company")
         @RequestParam(defaultValue = "all") programType: String,
-        
+
         @Parameter(description = "비용", example = "free")
         @RequestParam(defaultValue = "all") cost: String,
-        
+
         @Parameter(description = "시작 날짜", example = "2025-09-01")
         @RequestParam(required = false) startDate: String?,
-        
+
         @Parameter(description = "종료 날짜", example = "2025-12-31")
         @RequestParam(required = false) endDate: String?,
-        
+
         @Parameter(description = "정렬 기준", example = "latest")
         @RequestParam(defaultValue = "latest") sortBy: String,
-        
+
         @Parameter(description = "페이지 번호", example = "1")
         @RequestParam(defaultValue = "1") page: Int,
-        
+
         @Parameter(description = "페이지 크기", example = "10")
         @RequestParam(defaultValue = "10") size: Int
     ): PageResponse<ProgramResponse> {
@@ -53,7 +53,31 @@ class ProgramController(
             page = page,
             size = size
         )
-        
+
         return programService.searchPrograms(request)
+    }
+
+    @Operation(summary = "프로그램 신청")
+    @PostMapping("/{program_id}/register")
+    fun registerProgram(
+        @PathVariable("program_id") programId: String
+    ) {
+        programService.registerProgram(programId)
+    }
+
+    @Operation(summary = "프로그램 찜하기")
+    @PostMapping("/{program_id}/like")
+    fun likeProgram(
+        @PathVariable("program_id") programId: String
+    ) {
+        programService.likeProgram(programId)
+    }
+
+    @Operation(summary = "프로그램 찜삭제")
+    @DeleteMapping("/{program_id}/like")
+    fun unlikeProgram(
+        @PathVariable("program_id") programId: String
+    ) {
+        programService.unlikeProgram(programId)
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -23,7 +24,12 @@ class SecurityConfig {
     }
     
     @Bean
-    fun filterChain(http: HttpSecurity): SecurityFilterChain {
+    fun jwtAuthenticationFilter(authService: com.kkumgeurimi.kopring.domain.student.service.AuthService): JwtAuthenticationFilter {
+        return JwtAuthenticationFilter(authService)
+    }
+    
+    @Bean
+    fun filterChain(http: HttpSecurity, jwtAuthenticationFilter: JwtAuthenticationFilter): SecurityFilterChain {
         http
             .cors { it.disable() } // nginx에서 CORS 처리
             .csrf { it.disable() }
@@ -38,8 +44,10 @@ class SecurityConfig {
                     .requestMatchers("/swagger-ui.html").permitAll()
                     .requestMatchers("/v3/api-docs/**").permitAll()
                     .requestMatchers("/webjars/**").permitAll()
-                    .anyRequest().permitAll() // 간단한 보안 설정
+                    .requestMatchers("/programs/**").authenticated() // 프로그램 관련 엔드포인트는 인증 필요
+                    .anyRequest().permitAll()
             }
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .headers { headers ->
                 headers.frameOptions().disable() // H2 콘솔을 위해
             }

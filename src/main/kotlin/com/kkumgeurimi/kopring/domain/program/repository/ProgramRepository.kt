@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 
 interface ProgramRepository : JpaRepository<Program, Long> {
-    
+
+    fun findByProgramId(programId: String): Program?
+
     @Query("""
         SELECT p FROM Program p 
         WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
@@ -27,7 +29,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("endDate") endDate: String?,
         pageable: Pageable
     ): Page<Program>
-    
+
     @Query("""
         SELECT p FROM Program p 
         WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
@@ -47,7 +49,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("endDate") endDate: String?,
         pageable: Pageable
     ): Page<Program>
-    
+
     @Query("""
         SELECT p FROM Program p 
         LEFT JOIN p.programLikes pl
@@ -69,7 +71,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("endDate") endDate: String?,
         pageable: Pageable
     ): Page<Program>
-    
+
     @Query("""
         SELECT p FROM Program p 
         WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
@@ -89,7 +91,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("endDate") endDate: String?,
         pageable: Pageable
     ): Page<Program>
-    
+
     @Query("""
         SELECT p FROM Program p 
         WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)

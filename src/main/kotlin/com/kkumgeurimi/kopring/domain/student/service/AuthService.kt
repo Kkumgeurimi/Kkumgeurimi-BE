@@ -7,6 +7,7 @@ import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.config.JwtUtil
 import com.kkumgeurimi.kopring.domain.student.entity.Student
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
@@ -88,7 +89,13 @@ class AuthService(
         )
     }
     
-    fun getCurrentStudent(token: String): Student {
+    fun getCurrentStudent(): Student {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val email = authentication.name
+        return studentService.findByEmail(email)
+    }
+    
+    fun getStudentFromToken(token: String): Student {
         val cleanToken = token.replace("Bearer ", "")
         
         // 토큰 유효성 검사

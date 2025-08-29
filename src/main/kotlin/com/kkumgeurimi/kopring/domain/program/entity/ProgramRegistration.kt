@@ -8,8 +8,9 @@ import jakarta.persistence.*
 @Table(name = "program_registration")
 class ProgramRegistration(
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "program_registration_id", unique = true, nullable = false)
-    val programRegistrationId: String,
+    val programRegistrationId: Long,
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)

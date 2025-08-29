@@ -33,10 +33,13 @@ enum class ErrorCode(
     // 404 Not Found - 리소스 없음
     STUDENT_NOT_FOUND(404, "존재하지 않는 학생입니다."),
     RESOURCE_NOT_FOUND(404, "요청한 리소스를 찾을 수 없습니다."),
+    PROGRAM_NOT_FOUND(404, "존재하지 않는 프로그램입니다."),
 
     // 409 Conflict - 중복 리소스
     DUPLICATE_EMAIL(409, "이미 존재하는 이메일입니다."),
     STUDENT_ALREADY_EXISTS(409, "이미 존재하는 학생입니다."),
+    DUPLICATE_PROGRAM_REGISTRATION(409, "이미 신청한 프로그램입니다."),
+    DUPLICATE_PROGRAM_LIKE(409, "이미 찜한 프로그램입니다."),
 
     // 422 Unprocessable Entity - 검증 에러
     VALIDATION_FAILED(422, "입력값 검증에 실패했습니다."),

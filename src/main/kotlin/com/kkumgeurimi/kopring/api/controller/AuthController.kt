@@ -67,7 +67,7 @@ class AuthController(
         @RequestHeader("Authorization") token: String,
         response: HttpServletResponse
     ): TokenResponse {
-        val student = authService.getCurrentStudent(token)
+        val student = authService.getStudentFromToken(token)
         val tokenResponse = authService.refreshToken(student.email)
         
         // 헤더에 새 토큰 추가
