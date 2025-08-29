@@ -47,5 +47,21 @@ class Program(
     val operateCycle: String? = null,
     
     @Column(name = "interest_category", length = 255)
-    val interestCategory: String? = null
-) : BaseTime()
+    val interestCategory: String? = null,
+
+    @Column(name = "interest_text", length = 255)
+    val interestText: String? = null
+) : BaseTime() {
+    
+    @OneToOne(mappedBy = "program", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var programDetail: ProgramDetail? = null
+
+    @OneToMany(mappedBy = "program", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var programLikes: MutableList<ProgramLike> = mutableListOf()
+
+    @OneToMany(mappedBy = "program", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var programRegistrations: MutableList<ProgramRegistration> = mutableListOf()
+
+    @OneToMany(mappedBy = "program", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var programRecommendations: MutableList<ProgramRecommendation> = mutableListOf()
+}
