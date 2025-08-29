@@ -9,7 +9,7 @@ data class StudentResponse(
     val imageUrl: String?,
     val birth: String?,
     val school: String?,
-    val interestCategory: String?,
+    val interestCategoryId: Int?,
     val career: String?,
     val createdAt: String?,
     val modifiedAt: String?

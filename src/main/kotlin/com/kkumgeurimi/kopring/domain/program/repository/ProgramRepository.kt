@@ -13,7 +13,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
 
     @Query("""
         SELECT p FROM Program p 
-        WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
+        WHERE (:interestCategory IS NULL OR p.interestCategoryId = :interestCategory)
         AND (:programType = 'all' OR p.programType = :programType)
         AND (:cost = 'all' OR 
             (:cost = 'free' AND (p.price = '무료' OR p.price = '0원' OR p.price = 'free' OR p.price IS NULL)) OR
@@ -22,7 +22,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         AND (:endDate IS NULL OR p.endDate <= :endDate)
     """)
     fun findProgramsByFilters(
-        @Param("interestCategory") interestCategory: String,
+        @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: String,
         @Param("cost") cost: String,
         @Param("startDate") startDate: String?,
@@ -32,7 +32,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
 
     @Query("""
         SELECT p FROM Program p 
-        WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
+        WHERE (:interestCategory IS NULL OR p.interestCategoryId = :interestCategory)
         AND (:programType = 'all' OR p.programType = :programType)
         AND (:cost = 'all' OR 
             (:cost = 'free' AND (p.price = '무료' OR p.price = '0원' OR p.price = 'free' OR p.price IS NULL)) OR
@@ -42,7 +42,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         ORDER BY p.createdAt DESC
     """)
     fun findProgramsByFiltersOrderByLatest(
-        @Param("interestCategory") interestCategory: String,
+        @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: String,
         @Param("cost") cost: String,
         @Param("startDate") startDate: String?,
@@ -53,7 +53,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     @Query("""
         SELECT p FROM Program p 
         LEFT JOIN p.programLikes pl
-        WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
+        WHERE (:interestCategory IS NULL OR p.interestCategoryId = :interestCategory)
         AND (:programType = 'all' OR p.programType = :programType)
         AND (:cost = 'all' OR 
             (:cost = 'free' AND (p.price = '무료' OR p.price = '0원' OR p.price = 'free' OR p.price IS NULL)) OR
@@ -64,7 +64,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         ORDER BY COUNT(pl) DESC
     """)
     fun findProgramsByFiltersOrderByPopular(
-        @Param("interestCategory") interestCategory: String,
+        @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: String,
         @Param("cost") cost: String,
         @Param("startDate") startDate: String?,
@@ -74,17 +74,17 @@ interface ProgramRepository : JpaRepository<Program, Long> {
 
     @Query("""
         SELECT p FROM Program p 
-        WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
+        WHERE (:interestCategory IS NULL OR p.interestCategoryId = :interestCategory)
         AND (:programType = 'all' OR p.programType = :programType)
         AND (:cost = 'all' OR 
             (:cost = 'free' AND (p.price = '무료' OR p.price = '0원' OR p.price = 'free' OR p.price IS NULL)) OR
             (:cost = 'paid' AND p.price IS NOT NULL AND p.price != '무료' AND p.price != '0원' AND p.price != 'free'))
-        AND (:startDate IS NULL OR p.startDate >= :startDate)
+        AND (:startDate IS NULL OR p.startDate <= :startDate)
         AND (:endDate IS NULL OR p.endDate <= :endDate)
         ORDER BY p.endDate ASC
     """)
     fun findProgramsByFiltersOrderByDeadline(
-        @Param("interestCategory") interestCategory: String,
+        @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: String,
         @Param("cost") cost: String,
         @Param("startDate") startDate: String?,
@@ -94,7 +94,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
 
     @Query("""
         SELECT p FROM Program p 
-        WHERE (:interestCategory = 'all' OR p.interestCategory = :interestCategory)
+        WHERE (:interestCategory IS NULL OR p.interestCategoryId = :interestCategory)
         AND (:programType = 'all' OR p.programType = :programType)
         AND (:cost = 'all' OR 
             (:cost = 'free' AND (p.price = '무료' OR p.price = '0원' OR p.price = 'free' OR p.price IS NULL)) OR
@@ -109,7 +109,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             p.createdAt DESC
     """)
     fun findProgramsByFiltersOrderByFree(
-        @Param("interestCategory") interestCategory: String,
+        @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: String,
         @Param("cost") cost: String,
         @Param("startDate") startDate: String?,

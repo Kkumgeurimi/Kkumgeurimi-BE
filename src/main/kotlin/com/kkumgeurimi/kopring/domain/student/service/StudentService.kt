@@ -32,7 +32,7 @@ class StudentService(
             imageUrl = request.imageUrl,
             birth = request.birth,
             school = request.school,
-            interestCategory = request.interestCategory,
+            interestCategoryId = request.interestCategoryId,
             career = request.career,
             password = passwordEncoder.encode(request.password)
         )

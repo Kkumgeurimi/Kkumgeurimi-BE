@@ -22,6 +22,6 @@ data class StudentSignUpRequest(
     val imageUrl: String? = null,
     val birth: String? = null,
     val school: String? = null,
-    val interestCategory: String? = null,
+    val interestCategoryId: Int? = null,
     val career: String? = null
 )

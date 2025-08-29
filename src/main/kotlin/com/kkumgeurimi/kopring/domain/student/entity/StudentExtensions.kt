@@ -13,7 +13,7 @@ fun Student.toResponse(): StudentResponse {
         imageUrl = this.imageUrl,
         birth = this.birth,
         school = this.school,
-        interestCategory = this.interestCategory,
+        interestCategoryId = this.interestCategoryId,
         career = this.career,
         createdAt = this.createdAt?.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
         modifiedAt = this.modifiedAt?.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
