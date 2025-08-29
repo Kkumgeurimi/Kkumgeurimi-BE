@@ -31,7 +31,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create # 스키마 재생성용 추후 update로 변경 
+      ddl-auto: update
     show-sql: true # 스키마 생성 과정 확인용
     properties:
       hibernate:
