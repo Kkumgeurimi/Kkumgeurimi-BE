@@ -45,8 +45,8 @@ data class ProgramResponse(
     @Schema(description = "운영 주기")
     val operateCycle: String?,
     
-    @Schema(description = "관심 카테고리")
-    val interestCategory: String?,
+    @Schema(description = "관심 카테고리 ID")
+    val interestCategoryId: Int?,
     
     @Schema(description = "관심 텍스트")
     val interestText: String?,
@@ -79,7 +79,7 @@ data class ProgramResponse(
                 eligibleRegion = program.eligibleRegion,
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
-                interestCategory = program.interestCategory,
+                interestCategoryId = program.interestCategoryId,
                 interestText = program.interestText,
                 likeCount = likeCount,
                 registrationCount = registrationCount,

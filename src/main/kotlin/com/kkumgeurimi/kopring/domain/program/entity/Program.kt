@@ -46,8 +46,8 @@ class Program(
     @Column(name = "operate_cycle", length = 100)
     val operateCycle: String? = null,
     
-    @Column(name = "interest_category", length = 255)
-    val interestCategory: String? = null,
+    @Column(name = "interest_category_id")
+    val interestCategoryId: Int? = null,
 
     @Column(name = "interest_text", length = 255)
     val interestText: String? = null

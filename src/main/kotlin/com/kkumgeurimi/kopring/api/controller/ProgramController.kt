@@ -19,8 +19,8 @@ class ProgramController(
     @Operation(summary = "프로그램 검색", description = "다양한 필터와 정렬 옵션을 사용하여 프로그램을 검색합니다.")
     @GetMapping("/search")
     fun searchPrograms(
-        @Parameter(description = "관심 카테고리 (직무/전공) - 0-31", example = "0")
-        @RequestParam(required = false) interestCategory: String?,
+        @Parameter(description = "관심 카테고리 ID (직무/전공) - 0-31", example = "0")
+        @RequestParam(required = false) interestCategoryId: Int?,
 
         @Parameter(description = "체험유형", example = "field_company")
         @RequestParam(defaultValue = "all") programType: String,
@@ -44,7 +44,7 @@ class ProgramController(
         @RequestParam(defaultValue = "10") size: Int
     ): PageResponse<ProgramResponse> {
         val request = ProgramSearchRequest(
-            interestCategory = interestCategory,
+                            interestCategoryId = interestCategoryId,
             programType = programType,
             cost = cost,
             startDate = startDate,
