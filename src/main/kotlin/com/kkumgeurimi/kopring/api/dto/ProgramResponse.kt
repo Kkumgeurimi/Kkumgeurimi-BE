@@ -57,11 +57,23 @@ data class ProgramResponse(
     @Schema(description = "등록자 수")
     val registrationCount: Long = 0,
     
-    @Schema(description = "생성 시간")
-    val createdAt: LocalDateTime?,
+    @Schema(description = "프로그램 상세 설명")
+    val description: String? = null,
     
-    @Schema(description = "수정 시간")
-    val modifiedAt: LocalDateTime?
+    @Schema(description = "필요 시간")
+    val requiredHours: String? = null,
+    
+    @Schema(description = "가능 시간")
+    val availHours: String? = null,
+    
+    @Schema(description = "정원")
+    val capacity: Int? = null,
+    
+    @Schema(description = "대상 학교 유형")
+    val targetSchoolType: String? = null,
+    
+    @Schema(description = "레벨 정보")
+    val levelInfo: String? = null
 ) {
     companion object {
         fun from(program: Program, likeCount: Long = 0, registrationCount: Long = 0): ProgramResponse {
@@ -83,8 +95,12 @@ data class ProgramResponse(
                 interestText = program.interestText,
                 likeCount = likeCount,
                 registrationCount = registrationCount,
-                createdAt = program.createdAt,
-                modifiedAt = program.modifiedAt
+                description = program.programDetail?.description,
+                requiredHours = program.programDetail?.requiredHours,
+                availHours = program.programDetail?.availHours,
+                capacity = program.programDetail?.capacity,
+                targetSchoolType = program.programDetail?.targetSchoolType,
+                levelInfo = program.programDetail?.levelInfo
             )
         }
     }

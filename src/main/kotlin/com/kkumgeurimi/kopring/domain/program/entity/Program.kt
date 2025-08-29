@@ -22,10 +22,10 @@ class Program(
     @Column(name = "program_type", length = 100)
     val programType: String? = null,
     
-    @Column(name = "start_date", length = 50)
+    @Column(name = "start_date", length = 100)
     val startDate: String? = null,
     
-    @Column(name = "end_date", length = 50)
+    @Column(name = "end_date", length = 100)
     val endDate: String? = null,
     
     @Column(name = "related_major", length = 255)

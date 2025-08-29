@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.config
 
+import com.kkumgeurimi.kopring.domain.student.repository.StudentRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -24,8 +25,8 @@ class SecurityConfig {
     }
     
     @Bean
-    fun jwtAuthenticationFilter(authService: com.kkumgeurimi.kopring.domain.student.service.AuthService): JwtAuthenticationFilter {
-        return JwtAuthenticationFilter(authService)
+    fun jwtAuthenticationFilter(jwtUtil: JwtUtil, studentRepository: StudentRepository): JwtAuthenticationFilter {
+        return JwtAuthenticationFilter(jwtUtil, studentRepository)
     }
     
     @Bean

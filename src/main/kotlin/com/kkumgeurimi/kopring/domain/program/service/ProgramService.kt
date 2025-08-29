@@ -80,6 +80,16 @@ class ProgramService(
         )
     }
 
+    @Transactional(readOnly = true)
+    fun getProgramDetail(programId: String): ProgramResponse {
+        val program = getProgramById(programId)
+        
+        val likeCount = programLikeRepository.countByProgram(program)
+        val registrationCount = programRegistrationRepository.countByProgram(program)
+        
+        return ProgramResponse.from(program, likeCount, registrationCount)
+    }
+
     private fun validateSearchRequest(request: ProgramSearchRequest) {
         // 페이지 번호 검증
         if (request.page < 1) {

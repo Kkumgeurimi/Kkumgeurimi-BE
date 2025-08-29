@@ -44,7 +44,7 @@ class ProgramController(
         @RequestParam(defaultValue = "10") size: Int
     ): PageResponse<ProgramResponse> {
         val request = ProgramSearchRequest(
-                            interestCategoryId = interestCategoryId,
+            interestCategoryId = interestCategoryId,
             programType = programType,
             cost = cost,
             startDate = startDate,
@@ -80,4 +80,14 @@ class ProgramController(
     ) {
         programService.unlikeProgram(programId)
     }
+
+    @Operation(summary = "프로그램 상세 조회")
+    @GetMapping("/{program_id}")
+    fun getProgramDetail(
+        @PathVariable("program_id") programId: String
+    ): ProgramResponse {
+        return programService.getProgramDetail(programId)
+    }
+
+
 }

@@ -51,4 +51,10 @@ class StudentService(
         return studentRepository.findByEmail(email)
             ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
     }
+    
+    fun updateStudentInterestCategory(email: String, interestCategoryId: Int): Student {
+        val student = findByEmail(email)
+        student.interestCategoryId = interestCategoryId
+        return studentRepository.save(student)
+    }
 }
