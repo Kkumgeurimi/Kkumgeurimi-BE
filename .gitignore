@@ -1,0 +1,122 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Eclipse ###
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### Windows ###
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+### Linux ###
+*~
+
+### Kotlin ###
+.kotlin/
+
+### Logs ###
+logs/
+*.log
+log/
+
+### Environment Variables ###
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+src/main/resources/.env
+src/main/resources/.env.*
+
+### SSH Keys ###
+keys/
+*.pem
+*.key
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+
+### Temporary files ###
+*.tmp
+*.temp
+*~
+
+### OS generated files ###
+*.pid
+*.seed
+*.pid.lock
+
+### Coverage reports ###
+coverage/
+*.lcov
+
+### Dependency directories ###
+node_modules/
+
+### Optional npm cache directory ###
+.npm
+
+### Optional eslint cache ###
+.eslintcache

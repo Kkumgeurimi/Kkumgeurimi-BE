@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: kopring
+  
+  mvc:
+    servlet:
+      path: /
+    problemdetails:
+      enabled: true
+  
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/kopring
+    username: postgres
+    password: password
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  
+  security:
+    jwt:
+      secret: hdfasdfasjldfndgasdfasdsdvcsdfasd
+      expiration: 86400000
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      timeout: 2000ms
+
+# SpringDoc OpenAPI 설정
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  server-url: http://localhost:8080
+
+logging:
+  level:
+    com.kkumgeurimi.kopring: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

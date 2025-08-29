@@ -1,0 +1,74 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+  tomcat:
+    remoteip:
+      remote-ip-header: X-Forwarded-For
+      protocol-header: X-Forwarded-Proto
+      protocol-header-https-value: https
+
+spring:
+  application:
+    name: kopring
+  
+  mvc:
+    servlet:
+      path: /
+    problemdetails:
+      enabled: true
+  
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  jpa:
+    hibernate:
+      ddl-auto: create # 재배포 확인용.. 나중에 update로 변경
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      expiration: 86400000
+  
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: ${REDIS_PASSWORD}
+      timeout: 2000ms
+
+# SpringDoc OpenAPI 설정
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    servers:
+      - url: https://${DOMAIN_NAME}
+        description: Production API Server
+    try-it-out-enabled: true
+    csrf:
+      enabled: false
+  server-url: https://${DOMAIN_NAME}
+  use-fqn: true
+
+logging:
+  level:
+    com.kkumgeurimi.kopring: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
