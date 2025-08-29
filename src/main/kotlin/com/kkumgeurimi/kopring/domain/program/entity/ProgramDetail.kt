@@ -11,7 +11,7 @@ class ProgramDetail(
     val programDetailId: String,
     
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
     val program: Program,
     
     @Column(name = "description", columnDefinition = "TEXT")
@@ -30,6 +30,5 @@ class ProgramDetail(
     val targetSchoolType: String? = null,
     
     @Column(name = "level_info", columnDefinition = "TEXT")
-    val levelInfo: String? = null,
-
+    val levelInfo: String? = null
 ) : BaseTime()

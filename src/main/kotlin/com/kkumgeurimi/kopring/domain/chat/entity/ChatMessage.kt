@@ -12,7 +12,7 @@ class ChatMessage(
     val chatMessageId: String,
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id", nullable = false)
     val student: Student,
     
     @Column(name = "content", columnDefinition = "TEXT")

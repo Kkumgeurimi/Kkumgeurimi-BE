@@ -12,11 +12,11 @@ class ProgramRegistration(
     val programRegistrationId: String,
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
     val program: Program,
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id", nullable = false)
     val student: Student,
     
     @Enumerated(EnumType.STRING)

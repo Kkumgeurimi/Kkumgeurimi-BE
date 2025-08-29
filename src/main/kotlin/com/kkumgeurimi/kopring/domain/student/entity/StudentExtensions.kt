@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter
 
 fun Student.toResponse(): StudentResponse {
     return StudentResponse(
-        id = this.id!!,
+        id = this.studentId,
         email = this.email,
         name = this.name,
         phone = this.phone,

@@ -12,7 +12,10 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
 @Entity
-@Table(name = "student")
+@Table(
+    name = "student",
+    uniqueConstraints = [UniqueConstraint(columnNames = ["email"])]
+)
 class Student(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +24,7 @@ class Student(
 
     @field:NotBlank(message = "이메일은 필수입니다")
     @field:Email(message = "올바른 이메일 형식이 아닙니다")
-    @Column(name = "email", unique = true, nullable = false, length = 255)
+    @Column(name = "email", nullable = false, length = 255)
     val email: String,
     
     @field:NotBlank(message = "이름은 필수입니다")
