@@ -10,13 +10,13 @@ server:
 spring:
   application:
     name: kopring
-  
+
   mvc:
     servlet:
       path: /
     problemdetails:
       enabled: true
-  
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL}
@@ -28,7 +28,7 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  
+
   jpa:
     hibernate:
       ddl-auto: create # 재배포 확인용.. 나중에 update로 변경
@@ -39,12 +39,12 @@ spring:
         use_sql_comments: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
-  
+
   security:
     jwt:
       secret: ${JWT_SECRET}
       expiration: 86400000
-  
+
   data:
     redis:
       host: redis
@@ -58,9 +58,13 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+    servers:
+      - url: https://${DOMAIN_NAME}
+        description: Production API Server
     try-it-out-enabled: true
     csrf:
       enabled: false
+  server-url: https://${DOMAIN_NAME}
   use-fqn: true
 
 logging:
