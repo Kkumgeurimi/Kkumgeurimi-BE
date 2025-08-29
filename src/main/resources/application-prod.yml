@@ -58,13 +58,9 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
-    servers:
-      - url: https://${DOMAIN_NAME}
-        description: Production API Server
     try-it-out-enabled: true
     csrf:
       enabled: false
-  server-url: https://${DOMAIN_NAME}
   use-fqn: true
 
 logging:

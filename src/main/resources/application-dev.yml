@@ -51,7 +51,9 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
-  server-url: http://localhost:8080
+    try-it-out-enabled: true
+    csrf:
+      enabled: false
 
 logging:
   level:

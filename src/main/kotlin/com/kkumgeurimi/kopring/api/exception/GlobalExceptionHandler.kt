@@ -27,7 +27,7 @@ class GlobalExceptionHandler {
             timestamp = LocalDateTime.now().toString(),
             status = ex.errorCode.status,
             errorCode = ex.errorCode.name,
-            message = ex.errorCode.message,
+            message = ex.detailMessage ?: ex.errorCode.message,
             path = request.requestURI
         )
         
