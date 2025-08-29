@@ -17,10 +17,6 @@ class StudentService(
 ) {
     
     fun signUp(request: StudentSignUpRequest): Student {
-        // 비밀번호 확인
-        if (request.password != request.passwordConfirm) {
-            throw CustomException(ErrorCode.PASSWORD_MISMATCH)
-        }
         
         // 이메일 중복 확인
         if (studentRepository.existsByEmail(request.email)) {

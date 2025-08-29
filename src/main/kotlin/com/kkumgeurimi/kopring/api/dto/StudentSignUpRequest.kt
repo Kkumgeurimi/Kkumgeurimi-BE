@@ -15,10 +15,8 @@ data class StudentSignUpRequest(
     @field:NotBlank(message = "비밀번호는 필수입니다")
     @field:Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다")
     val password: String,
-    
-    @field:NotBlank(message = "비밀번호 확인은 필수입니다")
-    val passwordConfirm: String,
-    
+
+    val passwordConfirm: String? = null,
     val phone: String? = null,
     val address: String? = null,
     val imageUrl: String? = null,
