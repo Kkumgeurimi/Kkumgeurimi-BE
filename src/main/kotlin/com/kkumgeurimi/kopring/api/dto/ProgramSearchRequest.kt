@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "프로그램 검색 요청")
 data class ProgramSearchRequest(
     @Schema(description = "관심 카테고리 (직무/전공) - 0-31", example = "0")
-    val interestCategoryId: Int? = null,
+    val interestCategory: Int? = null,
     
     @Schema(description = "체험유형", example = "field_company")
     val programType: String = "all",
@@ -29,12 +29,12 @@ data class ProgramSearchRequest(
     val size: Int = 10
 ) {
     fun getValidatedInterestCategory(): String {
-        return if (interestCategoryId == null) {
+        return if (interestCategory == null) {
             "all"
         } else {
-            if (interestCategoryId in 0..31) {
+            if (interestCategory in 0..31) {
                 // 0-31 범위의 유효한 코드인지 확인
-                when (interestCategoryId) {
+                when (interestCategory) {
                     0 -> "HUM_SOC_RESEARCH"
                     1 -> "NAT_BIO_RESEARCH"
                     2 -> "ICT_RND_ENGINEERING"

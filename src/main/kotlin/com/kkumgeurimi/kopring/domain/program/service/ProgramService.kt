@@ -29,15 +29,9 @@ class ProgramService(
 
         val pageable = PageRequest.of(request.page - 1, request.size)
 
-        val validatedInterestCategory = if (request.interestCategoryId != null && request.interestCategoryId in 0..31) {
-            request.interestCategoryId
-        } else {
-            null
-        }
-
         val programsPage: Page<Program> = when (request.sortBy) {
             "latest" -> programRepository.findProgramsByFiltersOrderByLatest(
-                validatedInterestCategory,
+                request.interestCategory,
                 request.programType,
                 request.cost,
                 request.startDate,
@@ -45,7 +39,7 @@ class ProgramService(
                 pageable
             )
             "popular" -> programRepository.findProgramsByFiltersOrderByPopular(
-                validatedInterestCategory,
+                request.interestCategory,
                 request.programType,
                 request.cost,
                 request.startDate,
@@ -53,7 +47,7 @@ class ProgramService(
                 pageable
             )
             "deadline" -> programRepository.findProgramsByFiltersOrderByDeadline(
-                validatedInterestCategory,
+                request.interestCategory,
                 request.programType,
                 request.cost,
                 request.startDate,
@@ -102,7 +96,7 @@ class ProgramService(
         }
 
         // 관심 카테고리 검증
-        request.interestCategoryId?.let { categoryId ->
+        request.interestCategory?.let { categoryId ->
             if (categoryId !in 0..31) {
                 throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "관심 카테고리는 0-31 사이의 숫자여야 합니다.")
             }
