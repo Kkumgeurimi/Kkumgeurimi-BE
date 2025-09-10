@@ -1,0 +1,47 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:latest .
+
+      - name: Restore SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Restore .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: Deploy with SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ubuntu
+          EC2_KEY: ~/.ssh/id_rsa
+        run: |
+          scp -i $EC2_KEY -o StrictHostKeyChecking=no .env $EC2_USER@$EC2_HOST:~/kopring/.env
+          ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+            cd ~/kopring
+            docker compose -f docker-compose.prod.yml pull   # 새 이미지 받아오기
+            docker compose -f docker-compose.prod.yml up -d
+          "
