@@ -17,19 +17,21 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          
       - name: Restore config files
         run: |
           cat <<'EOF' > .env
-          ${{ secrets.ENV_FILE }}
-          EOF
-          
-              cat <<'EOF' > docker-compose.prod.yml
-          ${{ secrets.DOCKER_COMPOSE_FILE }}
-          EOF
-          
-              mkdir -p nginx
-              cat <<'EOF' > nginx/nginx.conf
-          ${{ secrets.NGINX_CONF }}
+${{ secrets.ENV_FILE }}
+EOF
+
+          cat <<'EOF' > docker-compose.prod.yml
+${{ secrets.DOCKER_COMPOSE_FILE }}
+EOF
+
+          mkdir -p nginx
+          cat <<'EOF' > nginx/nginx.conf
+${{ secrets.NGINX_CONF }}
+EOF
 
       - name: Deploy with SSH
         env:
