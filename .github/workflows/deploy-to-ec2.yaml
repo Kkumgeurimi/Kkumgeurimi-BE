@@ -41,9 +41,13 @@ jobs:
           EC2_USER: ubuntu
           EC2_KEY: ~/.ssh/id_rsa
         run: |
-          scp -i $EC2_KEY -o StrictHostKeyChecking=no .env $EC2_USER@$EC2_HOST:~/kopring/.env
-          ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
-            cd ~/kopring
-            docker compose -f docker-compose.prod.yml pull   # 새 이미지 받아오기
-            docker compose -f docker-compose.prod.yml up -d
-          "
+            scp -i $EC2_KEY -o StrictHostKeyChecking=no .env $EC2_USER@$EC2_HOST:~/kopring/.env
+            ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
+              cd ~/kopring
+              docker compose -f docker-compose.prod.yml pull
+              docker compose -f docker-compose.prod.yml up -d
+              docker container prune -f
+              docker image prune -af
+              docker volume prune -f
+              docker network prune -f
+            "
