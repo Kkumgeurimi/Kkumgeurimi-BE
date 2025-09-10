@@ -1,0 +1,34 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Restore SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Restore config files
+        run: |
+          printf "%s" "${{ secrets.ENV_FILE }}" > .env
+          printf "%s" "${{ secrets.DOCKER_COMPOSE_FILE }}" > docker-compose.prod.yml
+          mkdir -p nginx
+          printf "%s" "${{ secrets.NGINX_CONF }}" > nginx/nginx.conf
+
+      - name: Run deploy script
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_KEY: ~/.ssh/id_rsa
+        run: |
+          chmod +x ./deploy.sh
+          ./deploy.sh
