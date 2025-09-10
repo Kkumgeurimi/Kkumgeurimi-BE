@@ -31,4 +31,4 @@ jobs:
           EC2_KEY: ~/.ssh/id_rsa
         run: |
           chmod +x ./deploy.sh
-          ./deploy.sh
+          ./deploy.sh 
