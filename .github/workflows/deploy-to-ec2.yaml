@@ -12,6 +12,17 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:latest .
+          docker push ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.IMAGE_NAME }}:latest .
+
       - name: Restore SSH key
         run: |
           mkdir -p ~/.ssh
@@ -28,25 +39,9 @@ jobs:
           EC2_USER: ubuntu
           EC2_KEY: ~/.ssh/id_rsa
         run: |
-          # kopring 폴더 생성
-          ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "mkdir -p ~/kopring"
-
-          # .env 파일만 전송
-          scp -i $EC2_KEY -o StrictHostKeyChecking=no .env $EC2_USER@$EC2_HOST:~/kopring/
-
+          scp -i $EC2_KEY -o StrictHostKeyChecking=no .env $EC2_USER@$EC2_HOST:~/kopring/.env
           ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "
             cd ~/kopring
-            docker compose -f docker-compose.prod.yml down || true
-            docker image prune -f || true
+            docker compose -f docker-compose.prod.yml pull   # 새 이미지 받아오기
             docker compose -f docker-compose.prod.yml up -d
-
-            echo '[Check] Health check...'
-            sleep 20
-            if curl -f -s http://localhost:8080/actuator/health > /dev/null; then
-              echo '✅ 애플리케이션 정상 실행 중'
-            else
-              echo '❌ 애플리케이션 시작 실패 → 로그 출력'
-              docker compose -f docker-compose.prod.yml logs app
-              exit 1
-            fi
           "
