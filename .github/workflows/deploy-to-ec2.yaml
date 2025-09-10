@@ -1,0 +1,75 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Restore SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Restore and encode config files
+        run: |
+          # 원본 파일 복원 (Secrets에서 꺼내옴)
+          echo "${{ secrets.ENV_FILE }}" > .env
+          echo "${{ secrets.DOCKER_COMPOSE_FILE }}" > docker-compose.prod.yml
+          mkdir -p nginx
+          echo "${{ secrets.NGINX_CONF }}" > nginx/nginx.conf
+
+          # 복원된 파일을 base64 인코딩 (필요 시 다른 job에 넘기거나 검증용)
+          ENV_B64=$(cat .env | base64 -w0)
+          DOCKER_B64=$(cat docker-compose.prod.yml | base64 -w0)
+          NGINX_B64=$(cat nginx/nginx.conf | base64 -w0)
+
+          # GitHub Actions 로그에 노출되지 않도록 마스크 처리
+          echo "::add-mask::$ENV_B64"
+          echo "::add-mask::$DOCKER_B64"
+          echo "::add-mask::$NGINX_B64"
+
+          # (예: 다른 step에서 쓰고 싶다면 출력값으로 export)
+          echo "ENV_FILE_B64=$ENV_B64" >> $GITHUB_ENV
+          echo "DOCKER_COMPOSE_FILE_B64=$DOCKER_B64" >> $GITHUB_ENV
+          echo "NGINX_CONF_B64=$NGINX_B64" >> $GITHUB_ENV
+
+      - name: Deploy with SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ubuntu
+          EC2_KEY: ~/.ssh/id_rsa
+        run: |
+          # 서버에 프로젝트 폴더 준비
+          ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "mkdir -p ~/kopring"
+
+          # 파일 전송
+          scp -i $EC2_KEY -o StrictHostKeyChecking=no \
+            .env docker-compose.prod.yml -r nginx \
+            $EC2_USER@$EC2_HOST:~/kopring/
+
+          # docker compose 배포 실행
+          ssh -i $EC2_KEY -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+set -e
+cd ~/kopring
+docker compose -f docker-compose.prod.yml down || true
+docker image prune -f || true
+docker compose -f docker-compose.prod.yml up -d
+
+echo "[Check] Health check..."
+sleep 20
+if curl -f -s http://localhost:8080/actuator/health > /dev/null; then
+  echo "✅ 애플리케이션 정상 실행 중"
+else
+  echo "❌ 애플리케이션 시작 실패 → 로그 출력"
+  docker compose -f docker-compose.prod.yml logs app
+  exit 1
+fi
+EOF
