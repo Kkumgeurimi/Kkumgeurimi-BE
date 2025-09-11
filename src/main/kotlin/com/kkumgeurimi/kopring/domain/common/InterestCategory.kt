@@ -1,3 +1,5 @@
+package com.kkumgeurimi.kopring.domain.common
+
 enum class InterestCategory(val code: Int, val label: String) {
     HUM_SOC_RESEARCH(0, "인문·사회과학 연구직"),
     NAT_BIO_RESEARCH(1, "자연·생명과학 연구직"),
