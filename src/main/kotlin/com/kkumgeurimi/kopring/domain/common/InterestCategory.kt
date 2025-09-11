@@ -1,3 +1,5 @@
+package com.kkumgeurimi.kopring.domain.common
+
 enum class InterestCategory(val code: Int, val label: String) {
     HUM_SOC_RESEARCH(0, "인문·사회과학 연구직"),
     NAT_BIO_RESEARCH(1, "자연·생명과학 연구직"),
@@ -34,6 +36,8 @@ enum class InterestCategory(val code: Int, val label: String) {
 
     companion object {
         private val codeMap = values().associateBy(InterestCategory::code)
-        fun fromCode(code: Int): InterestCategory? = codeMap[code]
+
+        fun fromCode(code: Int): InterestCategory =
+            codeMap[code] ?: throw IllegalArgumentException("[InterestCategory] Invalid code: $code")
     }
 }

@@ -9,4 +9,5 @@ interface ProgramRegistrationRepository : JpaRepository<ProgramRegistration, Lon
     fun findByProgramAndStudent(program: Program, student: Student): ProgramRegistration?
     fun countByProgram(program: Program): Long
     fun findByStudentOrderByCreatedAtDesc(student: Student): List<ProgramRegistration>
+    fun existsByProgramAndStudent(program: Program?, it: Student): Boolean
 }

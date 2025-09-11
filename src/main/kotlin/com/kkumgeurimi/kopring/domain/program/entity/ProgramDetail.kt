@@ -11,7 +11,7 @@ class ProgramDetail(
     val programDetailId: String,
     
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false)
+    @JoinColumn(name = "program_id", referencedColumnName = "program_id", nullable = false, unique = true)
     val program: Program,
     
     @Column(name = "description", columnDefinition = "TEXT")

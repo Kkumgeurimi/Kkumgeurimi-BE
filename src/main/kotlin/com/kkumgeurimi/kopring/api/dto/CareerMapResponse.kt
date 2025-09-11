@@ -8,7 +8,7 @@ data class CareerMapResponse(
     val programId: String,
     val title: String,
     val description: String?,
-    val interestCategoryId: Int?
+    val interestCategory: Int?
 ) {
     companion object {
         fun from(registration: ProgramRegistration): CareerMapResponse {
@@ -18,7 +18,7 @@ data class CareerMapResponse(
                 programId = program.programId,
                 title = program.programTitle,
                 description = program.programDetail?.description,
-                interestCategoryId = program.interestCategoryId
+                interestCategory = program.interestCategory
             )
         }
     }
