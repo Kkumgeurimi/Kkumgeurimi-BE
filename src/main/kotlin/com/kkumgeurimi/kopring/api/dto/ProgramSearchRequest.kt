@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto
 
+import com.kkumgeurimi.kopring.domain.common.CostType
 import com.kkumgeurimi.kopring.domain.common.InterestCategory
 import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.common.SortBy
