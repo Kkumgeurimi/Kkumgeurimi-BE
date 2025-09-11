@@ -111,4 +111,10 @@ class AuthService(
         val email = jwtUtil.getEmailFromToken(cleanToken)
         return studentService.findByEmail(email)
     }
+
+    fun getCurrentStudentOrNull(): Student? {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val email = authentication.name
+        return studentService.findByEmailOrNull(email)
+    }
 }

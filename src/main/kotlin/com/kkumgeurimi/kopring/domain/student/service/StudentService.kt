@@ -8,6 +8,7 @@ import com.kkumgeurimi.kopring.domain.student.repository.StudentRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 @Transactional
@@ -32,7 +33,7 @@ class StudentService(
             imageUrl = request.imageUrl,
             birth = request.birth,
             school = request.school,
-            interestCategoryId = request.interestCategoryId,
+            interestCategory = request.interestCategory,
             career = request.career,
             password = passwordEncoder.encode(request.password)
         )
@@ -51,10 +52,14 @@ class StudentService(
         return studentRepository.findByEmail(email)
             ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
     }
+    @Transactional(readOnly = true)
+    fun findByEmailOrNull(email: String): Student? {
+        return studentRepository.findByEmail(email)
+    }
     
-    fun updateStudentInterestCategory(email: String, interestCategoryId: Int): Student {
+    fun updateStudentInterestCategory(email: String, interestCategory: Int): Student {
         val student = findByEmail(email)
-        student.interestCategoryId = interestCategoryId
+        student.interestCategory = interestCategory
         return studentRepository.save(student)
     }
 }

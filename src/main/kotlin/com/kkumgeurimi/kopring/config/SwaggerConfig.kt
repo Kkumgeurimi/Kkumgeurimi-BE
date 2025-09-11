@@ -12,25 +12,18 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 
 @Configuration
-class SwaggerConfig(
-    private val environment: Environment
-) {
-
+class SwaggerConfig {
     @Bean
     fun openAPI(): OpenAPI {
-        // 프로덕션 환경에서는 HTTPS URL 사용
-        val serverUrl = if (environment.activeProfiles.contains("prod")) {
-            "https://api.kkumgeurimi.r-e.kr"
-        } else {
-            "http://localhost:8080"
-        }
-
         return OpenAPI()
             .servers(
                 listOf(
                     Server()
-                        .url(serverUrl)
-                        .description("API Server")
+                        .url("https://api.kkumgeurimi.r-e.kr")
+                        .description("프로덕션 서버"),
+                    Server()
+                        .url("http://localhost:8080")
+                        .description("로컬 서버")
                 )
             )
             .info(
