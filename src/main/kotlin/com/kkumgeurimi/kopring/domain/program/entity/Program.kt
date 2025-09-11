@@ -49,6 +49,9 @@ class Program(
     @Column(name = "eligible_region", length = 255)
     var eligibleRegion: String? = null,
 
+    @Column(name = "venue_region", length = 255)
+    var venueRegion: String? = null,
+
     @Column(name = "venue_type", length = 255)
     var venueType: VenueType,
 
