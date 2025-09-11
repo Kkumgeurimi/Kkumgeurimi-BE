@@ -32,7 +32,7 @@ class StudentService(
             imageUrl = request.imageUrl,
             birth = request.birth,
             school = request.school,
-            interestCategoryId = request.interestCategoryId,
+            interestCategory = request.interestCategory,
             career = request.career,
             password = passwordEncoder.encode(request.password)
         )
@@ -52,9 +52,9 @@ class StudentService(
             ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
     }
     
-    fun updateStudentInterestCategory(email: String, interestCategoryId: Int): Student {
+    fun updateStudentInterestCategory(email: String, interestCategory: Int): Student {
         val student = findByEmail(email)
-        student.interestCategoryId = interestCategoryId
+        student.interestCategory = interestCategory
         return studentRepository.save(student)
     }
 }

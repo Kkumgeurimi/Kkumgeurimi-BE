@@ -23,7 +23,7 @@ class MyController(
         @Valid @RequestBody request: InterestCategoryRequest
     ): ResponseEntity<Unit> {
         val currentStudent = authService.getCurrentStudent()
-        studentService.updateStudentInterestCategory(currentStudent.email, request.interestCategoryId)
+        studentService.updateStudentInterestCategory(currentStudent.email, request.interestCategory)
         return ResponseEntity.ok().build()
     }
 }

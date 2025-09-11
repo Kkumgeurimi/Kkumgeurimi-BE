@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto
 
+import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
@@ -19,7 +20,7 @@ data class ProgramResponse(
     val targetAudience: String?,
     
     @Schema(description = "체험유형")
-    val programType: String?,
+    val programType: ProgramType?,
     
     @Schema(description = "시작 날짜")
     val startDate: String?,
@@ -46,7 +47,7 @@ data class ProgramResponse(
     val operateCycle: String?,
     
     @Schema(description = "관심 카테고리 ID")
-    val interestCategoryId: Int?,
+    val interestCategory: Int?,
     
     @Schema(description = "관심 텍스트")
     val interestText: String?,
@@ -91,7 +92,7 @@ data class ProgramResponse(
                 eligibleRegion = program.eligibleRegion,
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
-                interestCategoryId = program.interestCategoryId,
+                interestCategory = program.interestCategory,
                 interestText = program.interestText,
                 likeCount = likeCount,
                 registrationCount = registrationCount,

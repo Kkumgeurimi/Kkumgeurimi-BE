@@ -47,7 +47,7 @@ class Student(
     var school: String? = null,
     
     @Column(name = "interest_category", length = 100)
-    var interestCategoryId: Int? = null,
+    var interestCategory: Int? = null,
     
     @Column(name = "career", columnDefinition = "TEXT")
     var career: String? = null,
