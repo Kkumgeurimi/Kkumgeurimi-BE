@@ -1,8 +1,9 @@
 package com.kkumgeurimi.kopring.api.controller
 
 import com.kkumgeurimi.kopring.api.dto.PageResponse
-import com.kkumgeurimi.kopring.api.dto.ProgramResponse
+import com.kkumgeurimi.kopring.api.dto.ProgramDetailResponse
 import com.kkumgeurimi.kopring.api.dto.ProgramSearchRequest
+import com.kkumgeurimi.kopring.api.dto.ProgramSummaryResponse
 import com.kkumgeurimi.kopring.domain.program.service.ProgramLikeService
 import com.kkumgeurimi.kopring.domain.program.service.ProgramQueryService
 import com.kkumgeurimi.kopring.domain.program.service.ProgramRegistrationService
@@ -23,7 +24,7 @@ class ProgramController(
     @GetMapping("/search")
     fun searchPrograms(
         request: ProgramSearchRequest
-    ): PageResponse<ProgramResponse> {
+    ): PageResponse<ProgramSummaryResponse> {
         return programQueryService.searchPrograms(request)
     }
 
@@ -31,7 +32,7 @@ class ProgramController(
     @GetMapping("/{program_id}")
     fun getProgramDetail(
         @PathVariable("program_id") programId: String
-    ): ProgramResponse {
+    ): ProgramDetailResponse {
         return programQueryService.getProgramDetail(programId)
     }
 

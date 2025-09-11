@@ -45,7 +45,9 @@ class SecurityConfig {
                     .requestMatchers("/swagger-ui.html").permitAll()
                     .requestMatchers("/v3/api-docs/**").permitAll()
                     .requestMatchers("/webjars/**").permitAll()
-                    .requestMatchers("/programs/**").authenticated() // 프로그램 관련 엔드포인트는 인증 필요
+
+                    .requestMatchers("/programs/search").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/programs/*").permitAll()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)

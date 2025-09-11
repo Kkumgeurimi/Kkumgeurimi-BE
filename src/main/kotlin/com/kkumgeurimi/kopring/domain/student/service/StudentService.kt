@@ -8,6 +8,7 @@ import com.kkumgeurimi.kopring.domain.student.repository.StudentRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 @Transactional
@@ -50,6 +51,10 @@ class StudentService(
     fun findByEmail(email: String): Student {
         return studentRepository.findByEmail(email)
             ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
+    }
+    @Transactional(readOnly = true)
+    fun findByEmailOrNull(email: String): Student? {
+        return studentRepository.findByEmail(email)
     }
     
     fun updateStudentInterestCategory(email: String, interestCategory: Int): Student {

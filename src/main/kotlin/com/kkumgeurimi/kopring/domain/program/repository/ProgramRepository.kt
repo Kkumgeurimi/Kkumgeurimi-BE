@@ -19,17 +19,21 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     // 최신순
     @Query("""
         SELECT p FROM Program p
-        WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
-          AND (:programType IS NULL OR p.programType = :programType)
-          AND (:costType IS NULL OR p.costType = :costType)
-          AND p.startDate >= :startDate
-          AND p.endDate <= :endDate
+        WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory) 
+            AND (:programType IS NULL OR p.programType = :programType)
+            AND (:costType IS NULL OR p.costType = :costType)
+            AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
+            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+            AND p.startDate >= :startDate
+            AND p.endDate <= :endDate
         ORDER BY p.createdAt DESC
     """)
     fun findProgramsByFiltersOrderByLatest(
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
+        @Param("targetAudience") targetAudience: String?,
+        @Param("relatedMajor") relatedMajor: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -40,10 +44,12 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         SELECT p FROM Program p
         LEFT JOIN p.programLikes pl
         WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
-          AND (:programType IS NULL OR p.programType = :programType)
-          AND (:costType IS NULL OR p.costType = :costType)
-          AND p.startDate >= :startDate
-          AND p.endDate <= :endDate
+            AND (:programType IS NULL OR p.programType = :programType)
+            AND (:costType IS NULL OR p.costType = :costType)
+            AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
+            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+            AND p.startDate >= :startDate
+            AND p.endDate <= :endDate
         GROUP BY p
         ORDER BY COUNT(pl) DESC
     """)
@@ -51,6 +57,8 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
+        @Param("targetAudience") targetAudience: String?,
+        @Param("relatedMajor") relatedMajor: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -60,16 +68,20 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     @Query("""
         SELECT p FROM Program p
         WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
-          AND (:programType IS NULL OR p.programType = :programType)
-          AND (:costType IS NULL OR p.costType = :costType)
-          AND p.startDate >= :startDate
-          AND p.endDate <= :endDate
+            AND (:programType IS NULL OR p.programType = :programType)
+            AND (:costType IS NULL OR p.costType = :costType)
+            AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
+            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+            AND p.startDate >= :startDate
+            AND p.endDate <= :endDate
         ORDER BY p.endDate ASC
     """)
     fun findProgramsByFiltersOrderByDeadline(
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
+        @Param("targetAudience") targetAudience: String?,
+        @Param("relatedMajor") relatedMajor: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable

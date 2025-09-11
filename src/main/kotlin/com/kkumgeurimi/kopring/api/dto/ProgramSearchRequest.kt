@@ -1,7 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto
 
 import com.kkumgeurimi.kopring.domain.common.CostType
-import com.kkumgeurimi.kopring.domain.common.InterestCategory
 import com.kkumgeurimi.kopring.domain.common.SortBy
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Max
@@ -36,8 +35,11 @@ data class ProgramSearchRequest(
     val page: Int = 1,
 
     @Schema(description = "페이지 크기", example = "10")
-    val size: Int = 10
-) {
-    fun toDomainEnum(): InterestCategory? =
-        interestCategory?.let { InterestCategory.fromCode(it) }
-}
+    val size: Int = 10,
+
+    @Schema(description = "대상 학교 (초/중/고)", example = "중")
+    val targetAudience: String? = null,
+
+    @Schema(description = "관련 전공 (문자열 검색)", example = "기계공학")
+    val relatedMajor: String? = null
+)
