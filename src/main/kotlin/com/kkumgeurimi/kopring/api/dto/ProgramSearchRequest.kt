@@ -40,6 +40,6 @@ data class ProgramSearchRequest(
     @Schema(description = "대상 학교 (초/중/고)", example = "중")
     val targetAudience: String? = null,
 
-    @Schema(description = "관련 전공 (문자열 검색)", example = "기계공학")
-    val relatedMajor: String? = null
+    @Schema(description = "검색 키워드 (프로그램 제목/관련 전공)", example = "개발")
+    val keyword: String? = null
 )

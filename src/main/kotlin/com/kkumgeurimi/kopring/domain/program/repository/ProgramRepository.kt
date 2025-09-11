@@ -23,7 +23,10 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:programType IS NULL OR p.programType = :programType)
             AND (:costType IS NULL OR p.costType = :costType)
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
-            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+            AND (:keyword IS NULL OR (
+                LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
         ORDER BY p.createdAt DESC
@@ -33,7 +36,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
         @Param("targetAudience") targetAudience: String?,
-        @Param("relatedMajor") relatedMajor: String?,
+        @Param("keyword") keyword: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -47,7 +50,10 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:programType IS NULL OR p.programType = :programType)
             AND (:costType IS NULL OR p.costType = :costType)
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
-            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+            AND (:keyword IS NULL OR (
+                LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
         GROUP BY p
@@ -58,7 +64,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
         @Param("targetAudience") targetAudience: String?,
-        @Param("relatedMajor") relatedMajor: String?,
+        @Param("keyword") keyword: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -71,7 +77,10 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:programType IS NULL OR p.programType = :programType)
             AND (:costType IS NULL OR p.costType = :costType)
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
-            AND (:relatedMajor IS NULL OR p.relatedMajor LIKE %:relatedMajor%)
+             AND (:keyword IS NULL OR (
+                LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
         ORDER BY p.endDate ASC
@@ -81,7 +90,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("programType") programType: Int?,
         @Param("costType") costType: CostType?,
         @Param("targetAudience") targetAudience: String?,
-        @Param("relatedMajor") relatedMajor: String?,
+        @Param("keyword") keyword: String?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
