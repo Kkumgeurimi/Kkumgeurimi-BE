@@ -50,9 +50,10 @@ class SecurityConfig {
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .headers { headers ->
-                headers.frameOptions().disable() // H2 콘솔을 위해
+                headers.contentSecurityPolicy {
+                    it.policyDirectives("frame-ancestors 'self'")
+                }
             }
-        
         return http.build()
     }
     
