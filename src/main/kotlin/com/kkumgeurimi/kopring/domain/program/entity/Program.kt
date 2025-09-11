@@ -37,7 +37,7 @@ class Program(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cost_type", length = 20, nullable = false)
-    val cost: CostType,
+    val costType: CostType,
 
     @Column(name = "price", length = 100)
     val price: String? = null,

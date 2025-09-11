@@ -21,7 +21,7 @@ data class ProgramSearchRequest(
     val programType: Int? = null,
 
     @Schema(description = "비용", example = "FREE")
-    val cost: CostType? = null,
+    val costType: CostType? = null,
 
     @Schema(description = "시작 날짜", example = "2025-09-01")
     val startDate: LocalDate? = null,

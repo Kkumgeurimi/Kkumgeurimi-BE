@@ -21,7 +21,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         SELECT p FROM Program p
         WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
           AND (:programType IS NULL OR p.programType = :programType)
-          AND (:cost IS NULL OR p.cost = :cost)
+          AND (:costType IS NULL OR p.costType = :costType)
           AND p.startDate >= :startDate
           AND p.endDate <= :endDate
         ORDER BY p.createdAt DESC
@@ -29,7 +29,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     fun findProgramsByFiltersOrderByLatest(
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
-        @Param("cost") cost: CostType?,
+        @Param("costType") costType: CostType?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -41,7 +41,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         LEFT JOIN p.programLikes pl
         WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
           AND (:programType IS NULL OR p.programType = :programType)
-          AND (:cost IS NULL OR p.cost = :cost)
+          AND (:costType IS NULL OR p.costType = :costType)
           AND p.startDate >= :startDate
           AND p.endDate <= :endDate
         GROUP BY p
@@ -50,7 +50,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     fun findProgramsByFiltersOrderByPopular(
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
-        @Param("cost") cost: CostType?,
+        @Param("costType") costType: CostType?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
@@ -61,7 +61,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         SELECT p FROM Program p
         WHERE (:interestCategory IS NULL OR p.interestCategory = :interestCategory)
           AND (:programType IS NULL OR p.programType = :programType)
-          AND (:cost IS NULL OR p.cost = :cost)
+          AND (:costType IS NULL OR p.costType = :costType)
           AND p.startDate >= :startDate
           AND p.endDate <= :endDate
         ORDER BY p.endDate ASC
@@ -69,7 +69,7 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     fun findProgramsByFiltersOrderByDeadline(
         @Param("interestCategory") interestCategory: Int?,
         @Param("programType") programType: Int?,
-        @Param("cost") cost: CostType?,
+        @Param("costType") costType: CostType?,
         @Param("startDate") startDate: LocalDate,
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable

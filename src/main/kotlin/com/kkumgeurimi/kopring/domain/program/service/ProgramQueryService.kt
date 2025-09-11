@@ -43,15 +43,15 @@ class ProgramQueryService(
 
         val programsPage = when (request.sortBy) {
             SortBy.LATEST -> programRepository.findProgramsByFiltersOrderByLatest(
-                request.interestCategory, request.programType, request.cost,
+                request.interestCategory, request.programType, request.costType,
                 startDate, endDate, pageable
             )
             SortBy.POPULAR -> programRepository.findProgramsByFiltersOrderByPopular(
-                request.interestCategory, request.programType, request.cost,
+                request.interestCategory, request.programType, request.costType,
                 startDate, endDate, pageable
             )
             SortBy.DEADLINE -> programRepository.findProgramsByFiltersOrderByDeadline(
-                request.interestCategory, request.programType, request.cost,
+                request.interestCategory, request.programType, request.costType,
                 startDate, endDate, pageable
             )
         }
