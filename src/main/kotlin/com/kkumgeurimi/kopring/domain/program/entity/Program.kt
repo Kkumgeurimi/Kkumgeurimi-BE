@@ -60,9 +60,6 @@ class Program(
 
     @Column(name = "interest_category")
     var interestCategory: Int? = null,
-
-    @Column(name = "interest_text", length = 255)
-    var interestText: String? = null
 ) : BaseTime() {
 
     @OneToOne(mappedBy = "program", cascade = [CascadeType.ALL], orphanRemoval = true)

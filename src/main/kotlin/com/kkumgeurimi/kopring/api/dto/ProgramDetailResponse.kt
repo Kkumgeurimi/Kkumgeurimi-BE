@@ -29,7 +29,6 @@ data class ProgramDetailResponse(
     // 상세 전용 필드들
     val eligibleRegion: String?,
     val interestCategory: Int?,
-    val interestText: String?,
     val operateCycle: String?,
     val description: String?,
     val requiredHours: String?,
@@ -57,7 +56,6 @@ data class ProgramDetailResponse(
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
                 interestCategory = program.interestCategory,
-                interestText = program.interestText,
                 likeCount = likeCount,
                 registrationCount = registrationCount,
                 likedByMe = likedByMe,
