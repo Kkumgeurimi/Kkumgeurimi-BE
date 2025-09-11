@@ -23,13 +23,13 @@ class CareerService(
         
         // 관심 카테고리별로 그룹화하고 개수 계산
         val categoryCountMap = registrations
-            .mapNotNull { it.program.interestCategoryId }
+            .mapNotNull { it.program.interestCategory }
             .groupingBy { it }
             .eachCount()
         
         // 관심 카테고리별로 프로그램들을 그룹화
         val programsByCategory = registrations
-            .groupBy { it.program.interestCategoryId }
+            .groupBy { it.program.interestCategory }
             .filterKeys { it != null }
             .mapKeys { it.key!! }
         
