@@ -36,6 +36,8 @@ enum class InterestCategory(val code: Int, val label: String) {
 
     companion object {
         private val codeMap = values().associateBy(InterestCategory::code)
-        fun fromCode(code: Int): InterestCategory? = codeMap[code]
+
+        fun fromCode(code: Int): InterestCategory =
+            codeMap[code] ?: throw IllegalArgumentException("[InterestCategory] Invalid code: $code")
     }
 }

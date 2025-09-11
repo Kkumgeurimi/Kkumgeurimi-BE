@@ -26,32 +26,32 @@ class Student(
     @field:Email(message = "올바른 이메일 형식이 아닙니다")
     @Column(name = "email", nullable = false, length = 255)
     val email: String,
-    
+
     @field:NotBlank(message = "이름은 필수입니다")
     @Column(name = "name", nullable = false, length = 100)
     var name: String,
-    
+
     @Column(name = "phone", length = 20)
     var phone: String? = null,
-    
+
     @Column(name = "address", length = 500)
     var address: String? = null,
-    
+
     @Column(name = "image_url", length = 1000)
     var imageUrl: String? = null,
-    
+
     @Column(name = "birth", length = 10)
     var birth: String? = null,
-    
+
     @Column(name = "school", length = 100)
     var school: String? = null,
-    
-    @Column(name = "interest_category", length = 100)
+
+    @Column(name = "interest_category")
     var interestCategory: Int? = null,
-    
+
     @Column(name = "career", columnDefinition = "TEXT")
     var career: String? = null,
-    
+
     @JsonIgnore
     @field:NotBlank(message = "비밀번호는 필수입니다")
     @field:Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다")

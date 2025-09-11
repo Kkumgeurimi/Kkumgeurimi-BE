@@ -13,6 +13,7 @@ import com.kkumgeurimi.kopring.domain.program.repository.ProgramRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -25,8 +26,17 @@ class ProgramQueryService(
         if (request.page < 1) throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "페이지 번호는 1 이상이어야 합니다.")
         if (request.size !in 1..100) throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "페이지 크기는 1~100 사이여야 합니다.")
 
-        if (request.startDate != null && request.endDate != null && request.startDate.isAfter(request.endDate)) {
+        // null 방지 위해 기본값 설정
+        val startDate = request.startDate ?: LocalDate.now()
+        val endDate = request.endDate ?: LocalDate.now().plusYears(1)
+
+        // 유효성 검사
+        if (startDate.isAfter(endDate)) {
             throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "시작 날짜는 종료 날짜보다 이전이어야 합니다.")
+        }
+        if (java.time.Period.between(startDate, endDate).years >= 2 ||
+            java.time.Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay()).toDays() > 731) {
+            throw CustomException(ErrorCode.INVALID_INPUT_VALUE, "최대 조회 간격은 2년입니다.")
         }
 
         val pageable = PageRequest.of(request.page - 1, request.size)
@@ -34,15 +44,15 @@ class ProgramQueryService(
         val programsPage = when (request.sortBy) {
             SortBy.LATEST -> programRepository.findProgramsByFiltersOrderByLatest(
                 request.interestCategory, request.programType, request.cost,
-                request.startDate, request.endDate, pageable
+                startDate, endDate, pageable
             )
             SortBy.POPULAR -> programRepository.findProgramsByFiltersOrderByPopular(
                 request.interestCategory, request.programType, request.cost,
-                request.startDate, request.endDate, pageable
+                startDate, endDate, pageable
             )
             SortBy.DEADLINE -> programRepository.findProgramsByFiltersOrderByDeadline(
                 request.interestCategory, request.programType, request.cost,
-                request.startDate, request.endDate, pageable
+                startDate, endDate, pageable
             )
         }
 

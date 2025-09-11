@@ -1,10 +1,13 @@
 package com.kkumgeurimi.kopring.domain.program.entity
 
 import com.kkumgeurimi.kopring.domain.common.BaseTime
-import com.kkumgeurimi.kopring.domain.common.ProgramType
+import com.kkumgeurimi.kopring.domain.common.CostType
 import jakarta.persistence.*
+import org.hibernate.annotations.Check
+import java.time.LocalDate
 
 @Entity
+@Check(constraints = "interest_category BETWEEN 0 AND 31")
 @Table(name = "program")
 class Program(
     @Id
@@ -12,54 +15,51 @@ class Program(
     val programId: String,
 
     @Column(name = "program_title", length = 500, nullable = false)
-    val programTitle: String,
+    var programTitle: String,
 
     @Column(name = "provider", length = 255)
-    val provider: String? = null,
+    var provider: String? = null,
 
     @Column(name = "target_audience", length = 500)
-    val targetAudience: String? = null,
+    var targetAudience: String? = null,
 
     @Column(name = "program_type", nullable = false)
-    @Enumerated(EnumType.STRING)   // DB에 enum 이름 그대로 저장
-    val programType: ProgramType = ProgramType.ALL,
+    var programType: Int,
 
-    @Column(name = "start_date", length = 100)
-    val startDate: String? = null,
+    @Column(name = "start_date", columnDefinition = "DATE")
+    var startDate: LocalDate? = null,
 
-    @Column(name = "end_date", length = 100)
-    val endDate: String? = null,
+    @Column(name = "end_date", columnDefinition = "DATE")
+    var endDate: LocalDate? = null,
 
     @Column(name = "related_major", length = 255)
-    val relatedMajor: String? = null,
+    var relatedMajor: String? = null,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cost_type", length = 20, nullable = false)
+    val cost: CostType,
 
     @Column(name = "price", length = 100)
     val price: String? = null,
 
     @Column(name = "image_url", length = 1000)
-    val imageUrl: String? = null,
+    var imageUrl: String? = null,
 
     @Column(name = "eligible_region", length = 255)
-    val eligibleRegion: String? = null,
+    var eligibleRegion: String? = null,
 
     @Column(name = "venue_region", length = 255)
-    val venueRegion: String? = null,
+    var venueRegion: String? = null,
 
     @Column(name = "operate_cycle", length = 100)
-    val operateCycle: String? = null,
+    var operateCycle: String? = null,
 
     @Column(name = "interest_category")
-    val interestCategory: Int? = null,
+    var interestCategory: Int? = null,
 
     @Column(name = "interest_text", length = 255)
-    val interestText: String? = null
+    var interestText: String? = null
 ) : BaseTime() {
-    val isFree: Boolean
-        get() = price?.contains("무료") == true
-
-    val priceValue: Int?
-        get() = if (isFree) null
-        else price?.replace(",", "")?.replace("원", "")?.toIntOrNull()
 
     @OneToOne(mappedBy = "program", cascade = [CascadeType.ALL], orphanRemoval = true)
     var programDetail: ProgramDetail? = null
