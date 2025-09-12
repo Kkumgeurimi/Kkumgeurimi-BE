@@ -2,6 +2,7 @@ package com.kkumgeurimi.kopring.domain.program.entity
 
 import com.kkumgeurimi.kopring.domain.common.BaseTime
 import com.kkumgeurimi.kopring.domain.common.CostType
+import com.kkumgeurimi.kopring.domain.common.VenueType
 import jakarta.persistence.*
 import org.hibernate.annotations.Check
 import java.time.LocalDate
@@ -51,14 +52,14 @@ class Program(
     @Column(name = "venue_region", length = 255)
     var venueRegion: String? = null,
 
+    @Column(name = "venue_type", length = 255)
+    var venueType: VenueType,
+
     @Column(name = "operate_cycle", length = 100)
     var operateCycle: String? = null,
 
     @Column(name = "interest_category")
     var interestCategory: Int? = null,
-
-    @Column(name = "interest_text", length = 255)
-    var interestText: String? = null
 ) : BaseTime() {
 
     @OneToOne(mappedBy = "program", cascade = [CascadeType.ALL], orphanRemoval = true)
