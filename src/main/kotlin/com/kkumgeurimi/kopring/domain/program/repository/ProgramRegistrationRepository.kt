@@ -2,8 +2,10 @@ package com.kkumgeurimi.kopring.domain.program.repository
 
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramRegistration
+import com.kkumgeurimi.kopring.domain.program.entity.RegistrationStatus
 import com.kkumgeurimi.kopring.domain.student.entity.Student
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.LocalDate
@@ -14,15 +16,15 @@ interface ProgramRegistrationRepository : JpaRepository<ProgramRegistration, Lon
     fun findByStudentOrderByCreatedAtDesc(student: Student): List<ProgramRegistration>
     fun existsByProgramAndStudent(program: Program?, it: Student): Boolean
     
-    // completed된 프로그램 목록 조회 (endDate가 현재 날짜보다 이전인 것들)
+    // 특정 상태의 프로그램 목록 조회
     @Query("""
         SELECT pr FROM ProgramRegistration pr 
         JOIN FETCH pr.program p 
         WHERE pr.student = :student 
-        AND p.endDate < :currentDate 
-        ORDER BY p.endDate DESC
+        AND pr.registrationStatus = :status
+        ORDER BY pr.createdAt DESC
     """)
-    fun findCompletedProgramsByStudent(@Param("student") student: Student, @Param("currentDate") currentDate: LocalDate): List<ProgramRegistration>
+    fun findByStudentAndStatus(@Param("student") student: Student, @Param("status") status: RegistrationStatus): List<ProgramRegistration>
     
     // 현재 사용자가 작성한 리뷰 목록 조회 (리뷰 점수가 있는 것만)
     @Query("""
@@ -33,4 +35,18 @@ interface ProgramRegistrationRepository : JpaRepository<ProgramRegistration, Lon
         ORDER BY pr.createdAt DESC
     """)
     fun findReviewsByStudent(@Param("student") student: Student): List<ProgramRegistration>
+    
+    // endDate가 지난 REGISTERED 상태의 프로그램들을 COMPLETED로 업데이트
+    @Modifying
+    @Query("""
+        UPDATE ProgramRegistration pr 
+        SET pr.registrationStatus = :newStatus 
+        WHERE pr.registrationStatus = :currentStatus 
+        AND pr.program.endDate < :currentDate
+    """)
+    fun updateStatusByEndDate(
+        @Param("currentStatus") currentStatus: RegistrationStatus,
+        @Param("newStatus") newStatus: RegistrationStatus,
+        @Param("currentDate") currentDate: LocalDate
+    ): Int
 }
