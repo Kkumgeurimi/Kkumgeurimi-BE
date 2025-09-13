@@ -2,11 +2,14 @@ package com.kkumgeurimi.kopring.api.controller
 
 import com.kkumgeurimi.kopring.api.dto.auth.InterestCategoryRequest
 import com.kkumgeurimi.kopring.api.dto.program.MyLikedProgramResponse
+import com.kkumgeurimi.kopring.api.dto.review.MyReviewResponse
 import com.kkumgeurimi.kopring.api.dto.student.MyStudentProfileResponse
 import com.kkumgeurimi.kopring.api.dto.program.MyProgramResponse
 import com.kkumgeurimi.kopring.api.dto.program.MyUpcomingProgramResponse
 import com.kkumgeurimi.kopring.domain.program.entity.RegistrationStatus
-import com.kkumgeurimi.kopring.domain.program.service.MyProgramService
+import com.kkumgeurimi.kopring.domain.program.service.ProgramLikeService
+import com.kkumgeurimi.kopring.domain.program.service.ProgramRegistrationService
+import com.kkumgeurimi.kopring.domain.program.service.ReviewService
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
 import com.kkumgeurimi.kopring.domain.student.service.StudentService
 import io.swagger.v3.oas.annotations.Operation
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.*
 class MyController(
     private val authService: AuthService,
     private val studentService: StudentService,
-    private val myProgramService: MyProgramService
+    private val programRegistrationService: ProgramRegistrationService,
+    private val programLikeService: ProgramLikeService,
+    private val reviewService: ReviewService
 ) {
 
     @Operation(summary = "현재 유저(학생)의 관심사 설정")
@@ -44,24 +49,30 @@ class MyController(
         @Parameter(description = "프로그램 상태 (REGISTERED: 참여중, COMPLETED: 완료, null: 전체)")
         @RequestParam(required = false) status: RegistrationStatus?
     ): List<MyProgramResponse> {
-        return myProgramService.getMyPrograms(status)
+        return programRegistrationService.getMyPrograms(status)
     }
 
     @GetMapping("/upcoming")
     fun getMyUpcomingPrograms(
     ): List<MyUpcomingProgramResponse> {
-        return myProgramService.getMyUpcomingPrograms()
+        return programRegistrationService.getMyUpcomingPrograms()
     }
 
     @GetMapping("/likes")
     fun getMyLikedPrograms(
     ): List<MyLikedProgramResponse> {
-        return myProgramService.getMyLikedPrograms()
+        return programLikeService.getMyLikedPrograms()
     }
 
     @GetMapping
     fun getMyProfile(
     ): MyStudentProfileResponse {
-        return myProgramService.getMyStudentProfile()
+        return studentService.getMyStudentProfile()
+    }
+
+    @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "현재 사용자가 작성한 모든 리뷰 목록을 조회합니다.")
+    @GetMapping("/reviews")
+    fun getMyReviews(): List<MyReviewResponse> {
+        return reviewService.getMyReviews()
     }
 }

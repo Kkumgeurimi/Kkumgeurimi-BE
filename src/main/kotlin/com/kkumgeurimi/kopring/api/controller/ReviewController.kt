@@ -1,6 +1,5 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.review.MyReviewDto
 import com.kkumgeurimi.kopring.api.dto.review.ReviewCreateRequest
 import com.kkumgeurimi.kopring.domain.program.service.ReviewService
 import io.swagger.v3.oas.annotations.Operation
@@ -33,9 +32,4 @@ class ReviewController(
         return ResponseEntity.ok().build()
     }
     
-    @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "현재 사용자가 작성한 모든 리뷰 목록을 조회합니다.")
-    @GetMapping("/my/reviews")
-    fun getMyReviews(): List<MyReviewDto> {
-        return reviewService.getMyReviews()
-    }
 }

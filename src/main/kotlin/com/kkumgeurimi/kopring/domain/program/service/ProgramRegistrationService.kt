@@ -1,5 +1,7 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
+import com.kkumgeurimi.kopring.api.dto.program.MyProgramResponse
+import com.kkumgeurimi.kopring.api.dto.program.MyUpcomingProgramResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramRegistration
@@ -8,6 +10,7 @@ import com.kkumgeurimi.kopring.domain.program.repository.ProgramRegistrationRepo
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 
 @Service
@@ -32,5 +35,33 @@ class ProgramRegistrationService (
             registrationStatus = RegistrationStatus.REGISTERED
         )
         programRegistrationRepository.save(registration)
+    }
+
+    @Transactional(readOnly = true)
+    fun getMyPrograms(status: RegistrationStatus?): List<MyProgramResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val registrations = when (status) {
+            RegistrationStatus.REGISTERED -> {
+                programRegistrationRepository.findByStudentAndStatusWithProgramOrderByCreatedAtDesc(currentStudent, RegistrationStatus.REGISTERED)
+            }
+            RegistrationStatus.COMPLETED -> {
+                programRegistrationRepository.findByStudentAndStatusWithProgramOrderByCreatedAtDesc(currentStudent, RegistrationStatus.COMPLETED)
+            }
+            null -> {
+                programRegistrationRepository.findByStudentWithProgramOrderByCreatedAtDesc(currentStudent)
+            }
+        }
+        return registrations.map { MyProgramResponse.from(it) }
+    }
+
+    @Transactional(readOnly = true)
+    fun getMyUpcomingPrograms(): List<MyUpcomingProgramResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val upcomingPrograms = programRegistrationRepository.findByStudentAndProgramStartDateAfterAndRegistrationStatusWithProgram(
+            currentStudent,
+            LocalDate.now(),
+            RegistrationStatus.REGISTERED
+        )
+        return upcomingPrograms.map { MyUpcomingProgramResponse.from(it.program) }
     }
 }
