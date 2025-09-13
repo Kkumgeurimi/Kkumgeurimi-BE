@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.*
 class ProgramController(
     private val programQueryService: ProgramQueryService,
     private val programRegistrationService: ProgramRegistrationService,
-    private val programLikeService: ProgramLikeService
+    private val programLikeService: ProgramLikeService,
 ) {
-
     @Operation(summary = "프로그램 검색", description = "다양한 필터와 정렬 옵션을 사용하여 프로그램을 검색합니다.")
     @GetMapping("/search")
     fun searchPrograms(
@@ -34,6 +33,13 @@ class ProgramController(
         @PathVariable("program_id") programId: String
     ): ProgramDetailResponse {
         return programQueryService.getProgramDetail(programId)
+    }
+
+    @Operation(summary = "근 일주일간의 인기 프로그램 4개 조회")
+    @GetMapping("/trending")
+    fun getTrendingPrograms(
+    ): List<ProgramSummaryResponse> {
+        return programQueryService.getTrendingPrograms()
     }
 
     @Operation(summary = "프로그램 신청")

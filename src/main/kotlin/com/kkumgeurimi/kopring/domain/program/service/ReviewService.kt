@@ -10,7 +10,6 @@ import com.kkumgeurimi.kopring.domain.student.entity.Student
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @Transactional
@@ -18,8 +17,6 @@ class ReviewService(
     private val programRegistrationRepository: ProgramRegistrationRepository,
     private val authService: AuthService
 ) {
-    
-    
     // 리뷰 작성
     fun createReview(programRegistrationId: Long, request: ReviewCreateRequest) {
         val currentStudent = authService.getCurrentStudent()
