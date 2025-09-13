@@ -1,7 +1,7 @@
 package com.kkumgeurimi.kopring.domain.student.service
 
-import com.kkumgeurimi.kopring.api.dto.StudentLoginRequest
-import com.kkumgeurimi.kopring.api.dto.TokenResponse
+import com.kkumgeurimi.kopring.api.dto.auth.TokenResponse
+import com.kkumgeurimi.kopring.api.dto.auth.StudentLoginRequest
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.config.JwtUtil

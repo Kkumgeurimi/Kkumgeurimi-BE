@@ -29,14 +29,18 @@ enum class ErrorCode(
     // 403 Forbidden - 권한 에러
     UNAUTHORIZED_REQUEST(403, "권한이 없습니다."),
     ACCESS_DENIED(403, "접근이 거부되었습니다."),
+    UNAUTHORIZED_ACCESS(403, "해당 리소스에 접근할 권한이 없습니다."),
 
     // 404 Not Found - 리소스 없음
     STUDENT_NOT_FOUND(404, "존재하지 않는 학생입니다."),
     RESOURCE_NOT_FOUND(404, "요청한 리소스를 찾을 수 없습니다."),
     PROGRAM_NOT_FOUND(404, "프로그램이 존재하지 않습니다."),
     PROGRAM_LIKE_NOT_FOUND(404, "프로그램 찜이 존재하지 않습니다."),
+    PROGRAM_REGISTRATION_NOT_FOUND(404, "프로그램 등록 정보가 존재하지 않습니다."),
     POST_NOT_FOUND(404, "게시글이 존재하지 않습니다."),
     COMMENT_NOT_FOUND(404, "댓글이 존재하지 않습니다."),
+    CAREER_ANALYSIS_NOT_FOUND(404, "진로 분석 결과가 존재하지 않습니다."),
+    REVIEW_NOT_FOUND(404, "리뷰가 존재하지 않습니다."),
 
     // 409 Conflict - 중복 리소스
     DUPLICATE_EMAIL(409, "이미 존재하는 이메일입니다."),
@@ -44,9 +48,12 @@ enum class ErrorCode(
     DUPLICATE_PROGRAM_REGISTRATION(409, "이미 신청한 프로그램입니다."),
     DUPLICATE_PROGRAM_LIKE(409, "이미 찜한 프로그램입니다."),
     DUPLICATE_POST_LIKE(409, "이미 좋아요한 게시글입니다."),
+    REVIEW_ALREADY_EXISTS(409, "이미 리뷰가 작성되어 있습니다."),
 
     // 422 Unprocessable Entity - 검증 에러
     VALIDATION_FAILED(422, "입력값 검증에 실패했습니다."),
+    PROGRAM_NOT_COMPLETED(422, "완료되지 않은 프로그램에는 리뷰를 작성할 수 없습니다."),
+    REVIEW_SCORE_REQUIRED(422, "리뷰 점수는 필수입니다."),
 
     // 500 Internal Server Error - 서버 에러
     REDIS_ERROR(500, "서버에서 Redis 사용 중 문제가 발생했습니다."),

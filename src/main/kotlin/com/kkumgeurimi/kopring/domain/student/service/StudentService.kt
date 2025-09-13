@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.domain.student.service
 
-import com.kkumgeurimi.kopring.api.dto.StudentSignUpRequest
+import com.kkumgeurimi.kopring.api.dto.auth.StudentSignUpRequest
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.student.entity.Student
@@ -8,7 +8,6 @@ import com.kkumgeurimi.kopring.domain.student.repository.StudentRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
 
 @Service
 @Transactional

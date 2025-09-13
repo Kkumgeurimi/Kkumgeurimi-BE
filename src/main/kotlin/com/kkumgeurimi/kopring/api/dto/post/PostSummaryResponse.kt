@@ -1,33 +1,29 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.post
 
 import com.kkumgeurimi.kopring.domain.community.entity.Post
 import java.time.LocalDateTime
 
-// 게시글 상세 응답 DTO
-data class PostDetailResponse(
+// 게시글 목록 응답 DTO
+data class PostSummaryResponse(
     val id: Long,
     val title: String?,
-    val content: String,
     val category: String,
     val authorGrade: String,
     val viewCount: Int,
     val likeCount: Int,
-    val createdAt: LocalDateTime?,
-    val comments: List<CommentResponse>
+    val createdAt: LocalDateTime?
 ) {
     companion object {
-        fun from(post: Post): PostDetailResponse {
+        fun from(post: Post): PostSummaryResponse {
             val authorGrade = post.author.calculateGrade() ?: "익명"
-            return PostDetailResponse(
+            return PostSummaryResponse(
                 id = post.postId,
                 title = post.title,
-                content = post.content,
                 category = post.category.name,
                 authorGrade = authorGrade,
                 viewCount = post.viewCount,
                 likeCount = post.likeCount,
-                createdAt = post.createdAt,
-                comments = post.comments.map { CommentResponse.from(it) }
+                createdAt = post.createdAt
             )
         }
     }

@@ -3,6 +3,7 @@ package com.kkumgeurimi.kopring.domain.program.entity
 import com.kkumgeurimi.kopring.domain.common.BaseTime
 import com.kkumgeurimi.kopring.domain.student.entity.Student
 import jakarta.persistence.*
+import java.time.LocalDate
 
 @Entity
 @Table(name = "program_registration")
@@ -22,18 +23,23 @@ class ProgramRegistration(
     
     @Enumerated(EnumType.STRING)
     @Column(name = "registration_status", nullable = false)
-    val registrationStatus: RegistrationStatus,
+    val registrationStatus: RegistrationStatus = RegistrationStatus.REGISTERED,
     
     @Column(name = "review_score", length = 10)
     val reviewScore: String? = null,
     
     @Column(name = "review_message", columnDefinition = "TEXT")
     val reviewMessage: String? = null
-) : BaseTime()
+) : BaseTime() {
+    
+    fun isProgramCompleted(): Boolean {
+        return program.endDate?.let { endDate ->
+            endDate.isBefore(LocalDate.now())
+        } ?: false
+    }
+}
 
 enum class RegistrationStatus {
-    PENDING,
-    APPROVED,
-    REJECTED,
-    COMPLETED
+    REGISTERED, // 신청
+    COMPLETED   // 완료(endDatd 지남)
 }
