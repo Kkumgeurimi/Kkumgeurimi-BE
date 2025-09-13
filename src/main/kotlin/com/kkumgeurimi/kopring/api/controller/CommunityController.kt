@@ -1,8 +1,8 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.CommentRequest
-import com.kkumgeurimi.kopring.api.dto.PostDetailResponse
-import com.kkumgeurimi.kopring.api.dto.PostSummaryResponse
+import com.kkumgeurimi.kopring.api.dto.post.CommentRequest
+import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
+import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
 import com.kkumgeurimi.kopring.domain.community.entity.PostCategory
 import com.kkumgeurimi.kopring.domain.community.service.PostService
 import com.kkumgeurimi.kopring.domain.community.service.CommentService

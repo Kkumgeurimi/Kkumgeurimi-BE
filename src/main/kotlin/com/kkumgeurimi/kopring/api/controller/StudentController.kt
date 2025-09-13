@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.StudentResponse
+import com.kkumgeurimi.kopring.api.dto.auth.StudentResponse
 import com.kkumgeurimi.kopring.domain.student.entity.toResponse
 import com.kkumgeurimi.kopring.domain.student.service.StudentService
 import io.swagger.v3.oas.annotations.Operation

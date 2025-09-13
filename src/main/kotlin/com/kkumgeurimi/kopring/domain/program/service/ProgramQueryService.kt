@@ -1,9 +1,9 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
-import com.kkumgeurimi.kopring.api.dto.PageResponse
-import com.kkumgeurimi.kopring.api.dto.ProgramDetailResponse
-import com.kkumgeurimi.kopring.api.dto.ProgramSearchRequest
-import com.kkumgeurimi.kopring.api.dto.ProgramSummaryResponse
+import com.kkumgeurimi.kopring.api.dto.common.PageResponse
+import com.kkumgeurimi.kopring.api.dto.program.ProgramDetailResponse
+import com.kkumgeurimi.kopring.api.dto.program.ProgramSearchRequest
+import com.kkumgeurimi.kopring.api.dto.program.ProgramSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.common.SortBy

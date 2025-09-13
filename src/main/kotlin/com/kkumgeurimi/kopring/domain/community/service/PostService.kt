@@ -1,7 +1,7 @@
 package com.kkumgeurimi.kopring.domain.community.service
 
-import com.kkumgeurimi.kopring.api.dto.PostDetailResponse
-import com.kkumgeurimi.kopring.api.dto.PostSummaryResponse
+import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
+import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.community.entity.Post

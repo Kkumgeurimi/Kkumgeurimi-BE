@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.*
+import com.kkumgeurimi.kopring.api.dto.auth.*
 import com.kkumgeurimi.kopring.domain.student.entity.toResponse
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
 import com.kkumgeurimi.kopring.domain.student.service.StudentService

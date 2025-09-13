@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.domain.student.entity
 
-import com.kkumgeurimi.kopring.api.dto.StudentResponse
+import com.kkumgeurimi.kopring.api.dto.auth.StudentResponse
 import java.time.format.DateTimeFormatter
 
 fun Student.toResponse(): StudentResponse {
