@@ -33,13 +33,17 @@ enum class ErrorCode(
     // 404 Not Found - 리소스 없음
     STUDENT_NOT_FOUND(404, "존재하지 않는 학생입니다."),
     RESOURCE_NOT_FOUND(404, "요청한 리소스를 찾을 수 없습니다."),
-    PROGRAM_NOT_FOUND(404, "존재하지 않는 프로그램입니다."),
+    PROGRAM_NOT_FOUND(404, "프로그램이 존재하지 않습니다."),
+    PROGRAM_LIKE_NOT_FOUND(404, "프로그램 찜이 존재하지 않습니다."),
+    POST_NOT_FOUND(404, "게시글이 존재하지 않습니다."),
+    COMMENT_NOT_FOUND(404, "댓글이 존재하지 않습니다."),
 
     // 409 Conflict - 중복 리소스
     DUPLICATE_EMAIL(409, "이미 존재하는 이메일입니다."),
     STUDENT_ALREADY_EXISTS(409, "이미 존재하는 학생입니다."),
     DUPLICATE_PROGRAM_REGISTRATION(409, "이미 신청한 프로그램입니다."),
     DUPLICATE_PROGRAM_LIKE(409, "이미 찜한 프로그램입니다."),
+    DUPLICATE_POST_LIKE(409, "이미 좋아요한 게시글입니다."),
 
     // 422 Unprocessable Entity - 검증 에러
     VALIDATION_FAILED(422, "입력값 검증에 실패했습니다."),
@@ -48,5 +52,5 @@ enum class ErrorCode(
     REDIS_ERROR(500, "서버에서 Redis 사용 중 문제가 발생했습니다."),
     DATABASE_ERROR(500, "데이터베이스 오류가 발생했습니다."),
     INTERNAL_SERVER_ERROR(500, "서버 내부 오류가 발생했습니다."),
-    JWT_PROCESSING_ERROR(500, "JWT 토큰 처리 중 오류가 발생했습니다.");
+    JWT_PROCESSING_ERROR(500, "JWT 토큰 처리 중 오류가 발생했습니다.")
 }
