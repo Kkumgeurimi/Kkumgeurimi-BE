@@ -37,6 +37,7 @@ enum class ErrorCode(
     PROGRAM_LIKE_NOT_FOUND(404, "프로그램 찜이 존재하지 않습니다."),
     POST_NOT_FOUND(404, "게시글이 존재하지 않습니다."),
     COMMENT_NOT_FOUND(404, "댓글이 존재하지 않습니다."),
+    CAREER_ANALYSIS_NOT_FOUND(404, "진로 분석 결과가 존재하지 않습니다."),
 
     // 409 Conflict - 중복 리소스
     DUPLICATE_EMAIL(409, "이미 존재하는 이메일입니다."),
