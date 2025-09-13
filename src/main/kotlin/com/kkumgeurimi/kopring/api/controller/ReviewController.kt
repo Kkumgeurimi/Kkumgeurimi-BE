@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import jakarta.validation.Valid
 
-@Tag(name = "Review", description = "리뷰 관련 API")
+@Tag(name = "Review")
 @RestController
 class ReviewController(
     private val reviewService: ReviewService
