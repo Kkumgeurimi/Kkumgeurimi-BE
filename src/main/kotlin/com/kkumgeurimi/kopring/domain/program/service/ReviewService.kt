@@ -1,6 +1,5 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
-import com.kkumgeurimi.kopring.api.dto.review.CompletedProgramDto
 import com.kkumgeurimi.kopring.api.dto.review.MyReviewDto
 import com.kkumgeurimi.kopring.api.dto.review.ReviewCreateRequest
 import com.kkumgeurimi.kopring.api.exception.CustomException
@@ -20,17 +19,6 @@ class ReviewService(
     private val authService: AuthService
 ) {
     
-    // 완료된 프로그램 목록 조회
-    @Transactional(readOnly = true)
-    fun getCompletedPrograms(): List<CompletedProgramDto> {
-        val currentStudent = authService.getCurrentStudent()
-        val completedRegistrations = programRegistrationRepository.findCompletedProgramsByStudent(
-            currentStudent, 
-            LocalDate.now()
-        )
-        
-        return completedRegistrations.map { CompletedProgramDto.from(it) }
-    }
     
     // 리뷰 작성
     fun createReview(programRegistrationId: Long, request: ReviewCreateRequest) {

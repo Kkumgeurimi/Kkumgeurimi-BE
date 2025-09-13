@@ -1,6 +1,5 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.review.CompletedProgramDto
 import com.kkumgeurimi.kopring.api.dto.review.MyReviewDto
 import com.kkumgeurimi.kopring.api.dto.review.ReviewCreateRequest
 import com.kkumgeurimi.kopring.domain.program.service.ReviewService
@@ -15,12 +14,6 @@ import jakarta.validation.Valid
 class ReviewController(
     private val reviewService: ReviewService
 ) {
-    
-    @Operation(summary = "완료된 프로그램 목록 조회", description = "현재 사용자가 신청한 완료된 프로그램 목록을 조회합니다.")
-    @GetMapping("/programs/completed")
-    fun getCompletedPrograms(): List<CompletedProgramDto> {
-        return reviewService.getCompletedPrograms()
-    }
     
     @Operation(summary = "리뷰 작성", description = "완료된 프로그램에 대해 리뷰를 작성합니다.")
     @PostMapping("/reviews/{program_registration_id}")
