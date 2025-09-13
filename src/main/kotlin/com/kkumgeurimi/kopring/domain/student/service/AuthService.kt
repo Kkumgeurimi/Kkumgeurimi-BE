@@ -6,6 +6,7 @@ import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.config.JwtUtil
 import com.kkumgeurimi.kopring.domain.student.entity.Student
+import com.kkumgeurimi.kopring.domain.student.repository.StudentRepository
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 
 @Service
 class AuthService(
-    private val studentService: StudentService,
+    private val studentRepository: StudentRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtUtil: JwtUtil,
     private val redisTemplate: RedisTemplate<String, String>
@@ -22,7 +23,8 @@ class AuthService(
     
     fun login(request: StudentLoginRequest): TokenResponse {
         // 사용자 조회
-        val student = studentService.findByEmail(request.email)
+        val student = studentRepository.findByEmail(request.email)
+            ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
         
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.password, student.password)) {
@@ -92,7 +94,8 @@ class AuthService(
     fun getCurrentStudent(): Student {
         val authentication = SecurityContextHolder.getContext().authentication
         val email = authentication.name
-        return studentService.findByEmail(email)
+        return studentRepository.findByEmail(email)
+            ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
     }
     
     fun getStudentFromToken(token: String): Student {
@@ -109,12 +112,13 @@ class AuthService(
         }
         
         val email = jwtUtil.getEmailFromToken(cleanToken)
-        return studentService.findByEmail(email)
+        return studentRepository.findByEmail(email)
+            ?: throw CustomException(ErrorCode.STUDENT_NOT_FOUND)
     }
 
     fun getCurrentStudentOrNull(): Student? {
         val authentication = SecurityContextHolder.getContext().authentication
         val email = authentication.name
-        return studentService.findByEmailOrNull(email)
+        return studentRepository.findByEmail(email)
     }
 }

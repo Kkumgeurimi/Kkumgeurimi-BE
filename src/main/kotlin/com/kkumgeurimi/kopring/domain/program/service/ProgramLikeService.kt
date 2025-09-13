@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
+import com.kkumgeurimi.kopring.api.dto.program.MyLikedProgramResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramLike
@@ -38,5 +39,12 @@ class ProgramLikeService(
         val like = programLikeRepository.findByProgramAndStudent(program, currentStudent)
             ?: throw CustomException(ErrorCode.PROGRAM_LIKE_NOT_FOUND)
         programLikeRepository.delete(like)
+    }
+
+    @Transactional(readOnly = true)
+    fun getMyLikedPrograms(): List<MyLikedProgramResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val likedPrograms = programLikeRepository.findByStudentWithProgram(currentStudent)
+        return likedPrograms.map { MyLikedProgramResponse.from(it.program) }
     }
 }

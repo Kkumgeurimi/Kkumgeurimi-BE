@@ -1,6 +1,7 @@
 package com.kkumgeurimi.kopring.domain.student.service
 
 import com.kkumgeurimi.kopring.api.dto.auth.StudentSignUpRequest
+import com.kkumgeurimi.kopring.api.dto.student.MyStudentProfileResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.student.entity.Student
@@ -13,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class StudentService(
     private val studentRepository: StudentRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val authService: AuthService
 ) {
     
     fun signUp(request: StudentSignUpRequest): Student {
@@ -60,5 +62,11 @@ class StudentService(
         val student = findByEmail(email)
         student.interestCategory = interestCategory
         return studentRepository.save(student)
+    }
+
+    @Transactional(readOnly = true)
+    fun getMyStudentProfile(): MyStudentProfileResponse {
+        val currentStudent = authService.getCurrentStudent()
+        return MyStudentProfileResponse.from(currentStudent)
     }
 }

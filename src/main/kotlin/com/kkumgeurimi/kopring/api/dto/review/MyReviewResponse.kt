@@ -3,7 +3,7 @@ package com.kkumgeurimi.kopring.api.dto.review
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramRegistration
 import java.time.LocalDateTime
 
-data class MyReviewDto(
+data class MyReviewResponse(
     val programRegistrationId: Long,
     val programId: String,
     val programTitle: String,
@@ -14,8 +14,8 @@ data class MyReviewDto(
     val createdAt: LocalDateTime?
 ) {
     companion object {
-        fun from(registration: ProgramRegistration): MyReviewDto {
-            return MyReviewDto(
+        fun from(registration: ProgramRegistration): MyReviewResponse {
+            return MyReviewResponse(
                 programRegistrationId = registration.programRegistrationId,
                 programId = registration.program.programId,
                 programTitle = registration.program.programTitle,

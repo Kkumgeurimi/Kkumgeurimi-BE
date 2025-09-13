@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
-import com.kkumgeurimi.kopring.api.dto.review.MyReviewDto
+import com.kkumgeurimi.kopring.api.dto.review.MyReviewResponse
 import com.kkumgeurimi.kopring.api.dto.review.ReviewCreateRequest
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
@@ -75,11 +75,11 @@ class ReviewService(
     
     // 로그인된 유저가 작성한 리뷰 조회
     @Transactional(readOnly = true)
-    fun getMyReviews(): List<MyReviewDto> {
+    fun getMyReviews(): List<MyReviewResponse> {
         val currentStudent = authService.getCurrentStudent()
         val reviewRegistrations = programRegistrationRepository.findReviewsByStudent(currentStudent)
         
-        return reviewRegistrations.map { MyReviewDto.from(it) }
+        return reviewRegistrations.map { MyReviewResponse.from(it) }
     }
     
     // 생성자 검증
