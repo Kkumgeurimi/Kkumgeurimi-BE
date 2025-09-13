@@ -29,7 +29,7 @@ class ProgramRegistrationService (
             programRegistrationId = 0,
             program = program,
             student = currentStudent,
-            registrationStatus = RegistrationStatus.PENDING
+            registrationStatus = RegistrationStatus.REGISTERED
         )
         programRegistrationRepository.save(registration)
     }
