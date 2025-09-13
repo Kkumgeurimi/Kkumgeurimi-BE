@@ -4,7 +4,9 @@ import com.kkumgeurimi.kopring.api.dto.CommentRequest
 import com.kkumgeurimi.kopring.api.dto.PostDetailResponse
 import com.kkumgeurimi.kopring.api.dto.PostSummaryResponse
 import com.kkumgeurimi.kopring.domain.community.entity.PostCategory
-import com.kkumgeurimi.kopring.domain.community.service.CommunityService
+import com.kkumgeurimi.kopring.domain.community.service.PostService
+import com.kkumgeurimi.kopring.domain.community.service.CommentService
+import com.kkumgeurimi.kopring.domain.community.service.PostLikeService
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.*
 @Tag(name = "Community")
 @RestController
 class CommunityController(
-    private val communityService: CommunityService
+    private val postService: PostService,
+    private val commentService: CommentService,
+    private val postLikeService: PostLikeService
 ) {
     @PostMapping("/posts")
     fun createPost(
@@ -22,7 +26,7 @@ class CommunityController(
         @RequestParam content: String,
         @RequestParam category: PostCategory
     ): ResponseEntity<Void> {
-        communityService.createPost(title, content, category)
+        postService.createPost(title, content, category)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
@@ -31,21 +35,21 @@ class CommunityController(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "10") size: Int
     ): Page<PostSummaryResponse> {
-        return communityService.getPosts(page, size)
+        return postService.getPosts(page, size)
     }
 
     @GetMapping("/posts/{postId}")
     fun getPostDetail(
         @PathVariable postId: Long
     ): PostDetailResponse {
-        return communityService.getPostDetail(postId)
+        return postService.getPostDetail(postId)
     }
 
     @DeleteMapping("/posts/{postId}")
     fun deletePost(
         @PathVariable postId: Long
     ): ResponseEntity<Void> {
-        communityService.deletePost(postId)
+        postService.deletePost(postId)
         return ResponseEntity.ok().build()
     }
 
@@ -54,7 +58,7 @@ class CommunityController(
         @PathVariable postId: Long,
         @RequestBody request: CommentRequest
     ): ResponseEntity<Void> {
-        communityService.addComment(postId, request.content)
+        commentService.addComment(postId, request.content)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
@@ -62,7 +66,15 @@ class CommunityController(
     fun deleteComment(
         @PathVariable commentId: Long
     ): ResponseEntity<Void> {
-        communityService.deleteComment(commentId)
+        commentService.deleteComment(commentId)
         return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/posts/{postId}/like")
+    fun createPostLike(
+        @PathVariable postId: Long
+    ): ResponseEntity<Void> {
+        postLikeService.createPostLike(postId)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 }

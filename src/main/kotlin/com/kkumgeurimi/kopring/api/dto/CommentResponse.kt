@@ -6,15 +6,16 @@ import java.time.LocalDateTime
 data class CommentResponse(
     val id: Long,
     val content: String,
-    val authorName: String,
+    val authorGrade: String,
     val createdAt: LocalDateTime?
 ) {
     companion object {
         fun from(comment: com.kkumgeurimi.kopring.domain.community.entity.Comment): CommentResponse {
+            val authorGrade = comment.author.calculateGrade() ?: "익명"
             return CommentResponse(
                 id = comment.id,
                 content = comment.content,
-                authorName = comment.author.name,
+                authorGrade = authorGrade,
                 createdAt = comment.createdAt
             )
         }

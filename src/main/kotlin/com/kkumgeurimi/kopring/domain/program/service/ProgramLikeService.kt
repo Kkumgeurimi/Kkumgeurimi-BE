@@ -24,23 +24,19 @@ class ProgramLikeService(
         if (existingLike != null) {
             throw CustomException(ErrorCode.DUPLICATE_PROGRAM_LIKE)
         }
-
         val like = ProgramLike(
             programLikeId = 0,
             program = program,
             student = currentStudent
         )
-
         programLikeRepository.save(like)
     }
 
     fun unlikeProgram(programId: String) {
         val currentStudent = authService.getCurrentStudent()
         val program = programQueryService.getProgramById(programId)
-
         val like = programLikeRepository.findByProgramAndStudent(program, currentStudent)
-            ?: throw CustomException(ErrorCode.ERROR)
-
+            ?: throw CustomException(ErrorCode.PROGRAM_LIKE_NOT_FOUND)
         programLikeRepository.delete(like)
     }
 }

@@ -2,7 +2,6 @@ package com.kkumgeurimi.kopring.domain.community.entity
 
 import com.kkumgeurimi.kopring.domain.common.BaseTime
 import com.kkumgeurimi.kopring.domain.hashtag.entity.PostHashtag
-import com.kkumgeurimi.kopring.domain.hashtag.entity.PostTag
 import com.kkumgeurimi.kopring.domain.student.entity.Student
 import jakarta.persistence.*
 

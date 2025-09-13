@@ -9,7 +9,7 @@ data class PostDetailResponse(
     val title: String?,
     val content: String,
     val category: String,
-    val authorName: String,
+    val authorGrade: String,
     val viewCount: Int,
     val likeCount: Int,
     val createdAt: LocalDateTime?,
@@ -17,12 +17,13 @@ data class PostDetailResponse(
 ) {
     companion object {
         fun from(post: Post): PostDetailResponse {
+            val authorGrade = post.author.calculateGrade() ?: "익명"
             return PostDetailResponse(
                 id = post.postId,
                 title = post.title,
                 content = post.content,
                 category = post.category.name,
-                authorName = post.author.name,
+                authorGrade = authorGrade,
                 viewCount = post.viewCount,
                 likeCount = post.likeCount,
                 createdAt = post.createdAt,

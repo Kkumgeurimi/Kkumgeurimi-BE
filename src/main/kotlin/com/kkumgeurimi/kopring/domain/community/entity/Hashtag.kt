@@ -12,5 +12,8 @@ class Hashtag(
     val id: Long = 0,
 
     @Column(nullable = false, unique = true, length = 50)
-    val name: String
+    val name: String,
+
+    @OneToMany(mappedBy = "hashtag", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val postHashtags: MutableList<PostHashtag> = mutableListOf()
 ) : BaseTime()
