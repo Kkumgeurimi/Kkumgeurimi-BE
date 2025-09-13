@@ -1,7 +1,10 @@
 package com.kkumgeurimi.kopring.api.controller
 
 import com.kkumgeurimi.kopring.api.dto.auth.InterestCategoryRequest
+import com.kkumgeurimi.kopring.api.dto.program.MyLikedProgramResponse
+import com.kkumgeurimi.kopring.api.dto.student.MyStudentProfileResponse
 import com.kkumgeurimi.kopring.api.dto.program.MyProgramResponse
+import com.kkumgeurimi.kopring.api.dto.program.MyUpcomingProgramResponse
 import com.kkumgeurimi.kopring.domain.program.entity.RegistrationStatus
 import com.kkumgeurimi.kopring.domain.program.service.MyProgramService
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
@@ -42,5 +45,23 @@ class MyController(
         @RequestParam(required = false) status: RegistrationStatus?
     ): List<MyProgramResponse> {
         return myProgramService.getMyPrograms(status)
+    }
+
+    @GetMapping("/upcoming")
+    fun getMyUpcomingPrograms(
+    ): List<MyUpcomingProgramResponse> {
+        return myProgramService.getMyUpcomingPrograms()
+    }
+
+    @GetMapping("/likes")
+    fun getMyLikedPrograms(
+    ): List<MyLikedProgramResponse> {
+        return myProgramService.getMyLikedPrograms()
+    }
+
+    @GetMapping
+    fun getMyProfile(
+    ): MyStudentProfileResponse {
+        return myProgramService.getMyStudentProfile()
     }
 }

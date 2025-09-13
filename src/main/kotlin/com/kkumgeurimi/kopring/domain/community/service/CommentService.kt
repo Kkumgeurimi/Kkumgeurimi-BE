@@ -22,7 +22,7 @@ class CommentService(
         val currentStudentLevel = currentStudent.getSchoolLevel()
         
         if (currentStudentLevel != null && post.author.getSchoolLevel() != currentStudentLevel) {
-            throw IllegalAccessException("해당 게시글에 댓글을 달 수 없습니다")
+            throw CustomException(ErrorCode.UNAUTHORIZED_ACCESS)
         }
         
         val comment = Comment(
@@ -36,7 +36,8 @@ class CommentService(
     @Transactional
     fun deleteComment(commentId: Long) {
         val comment = commentRepository.findById(commentId).orElseThrow { CustomException(ErrorCode.COMMENT_NOT_FOUND)  }
-        if (comment.author.studentId != authService.getCurrentStudent().studentId) throw IllegalAccessException("삭제 권한 없음")
+        if (comment.author.studentId != authService.getCurrentStudent().studentId)
+            throw CustomException(ErrorCode.UNAUTHORIZED_REQUEST)
         commentRepository.delete(comment)
     }
 }

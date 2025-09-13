@@ -95,4 +95,14 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         @Param("endDate") endDate: LocalDate,
         pageable: Pageable
     ): Page<Program>
+
+    @Query("""
+        SELECT p
+        FROM Program p
+        LEFT JOIN p.programLikes pl
+        WHERE pl.createdAt >= :oneWeekAgo
+        GROUP BY p.programId
+        ORDER BY COUNT(pl) DESC
+    """)
+    fun findTop4ProgramsByOrderByProgramLikesInLastWeek(@Param("oneWeekAgo") oneWeekAgo: LocalDate): List<Program>
 }

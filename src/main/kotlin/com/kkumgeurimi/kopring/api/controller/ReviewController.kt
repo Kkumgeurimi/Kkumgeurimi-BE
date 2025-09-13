@@ -14,7 +14,6 @@ import jakarta.validation.Valid
 class ReviewController(
     private val reviewService: ReviewService
 ) {
-    
     @Operation(summary = "리뷰 작성", description = "완료된 프로그램에 대해 리뷰를 작성합니다.")
     @PostMapping("/reviews/{program_registration_id}")
     fun createReview(
