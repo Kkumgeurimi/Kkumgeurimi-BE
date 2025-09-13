@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.domain.community.service
 
+import com.kkumgeurimi.kopring.api.dto.post.CommentResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
@@ -82,7 +83,7 @@ class PostService(
             likeCount = post.likeCount,
             createdAt = post.createdAt,
             comments = post.comments.map { 
-                com.kkumgeurimi.kopring.api.dto.CommentResponse(
+                CommentResponse(
                     id = it.id,
                     content = it.content,
                     authorGrade = it.author.calculateGrade() ?: "익명",

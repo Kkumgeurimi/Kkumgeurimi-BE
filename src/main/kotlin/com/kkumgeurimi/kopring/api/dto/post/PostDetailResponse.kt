@@ -1,4 +1,4 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.post
 
 import com.kkumgeurimi.kopring.domain.community.entity.Post
 import java.time.LocalDateTime

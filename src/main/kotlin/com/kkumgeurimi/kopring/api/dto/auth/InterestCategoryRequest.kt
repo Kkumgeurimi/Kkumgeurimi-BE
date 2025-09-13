@@ -1,4 +1,4 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.auth
 
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min

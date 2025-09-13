@@ -1,4 +1,4 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.common
 
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.data.domain.Page

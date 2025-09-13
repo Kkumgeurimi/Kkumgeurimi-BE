@@ -30,7 +30,7 @@ interface ProgramRegistrationRepository : JpaRepository<ProgramRegistration, Lon
         JOIN FETCH pr.program p 
         WHERE pr.student = :student 
         AND pr.reviewScore IS NOT NULL
-        ORDER BY pr.updatedAt DESC
+        ORDER BY pr.createdAt DESC
     """)
     fun findReviewsByStudent(@Param("student") student: Student): List<ProgramRegistration>
 }

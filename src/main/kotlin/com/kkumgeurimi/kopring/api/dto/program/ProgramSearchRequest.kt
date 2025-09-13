@@ -1,4 +1,4 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.program
 
 import com.kkumgeurimi.kopring.domain.common.CostType
 import com.kkumgeurimi.kopring.domain.common.SortBy
