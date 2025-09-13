@@ -18,9 +18,8 @@ class ReviewController(
     
     @Operation(summary = "완료된 프로그램 목록 조회", description = "현재 사용자가 신청한 완료된 프로그램 목록을 조회합니다.")
     @GetMapping("/programs/completed")
-    fun getCompletedPrograms(): ResponseEntity<List<CompletedProgramDto>> {
-        val completedPrograms = reviewService.getCompletedPrograms()
-        return ResponseEntity.ok(completedPrograms)
+    fun getCompletedPrograms(): List<CompletedProgramDto> {
+        return reviewService.getCompletedPrograms()
     }
     
     @Operation(summary = "리뷰 작성", description = "완료된 프로그램에 대해 리뷰를 작성합니다.")
@@ -44,8 +43,7 @@ class ReviewController(
     
     @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "현재 사용자가 작성한 모든 리뷰 목록을 조회합니다.")
     @GetMapping("/my/reviews")
-    fun getMyReviews(): ResponseEntity<List<MyReviewDto>> {
-        val myReviews = reviewService.getMyReviews()
-        return ResponseEntity.ok(myReviews)
+    fun getMyReviews(): List<MyReviewDto> {
+        return reviewService.getMyReviews()
     }
 }
