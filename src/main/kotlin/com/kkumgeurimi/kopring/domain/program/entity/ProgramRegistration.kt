@@ -41,5 +41,5 @@ class ProgramRegistration(
 
 enum class RegistrationStatus {
     REGISTERED, // 신청
-    COMPLETED   // 완료(endDatd 지남)
+    COMPLETED   // 완료(endDate 지남)
 }

@@ -18,7 +18,7 @@ class ProgramStatusScheduler(
     fun updateCompletedPrograms() {
         val currentDate = LocalDate.now()
         
-        programRegistrationRepository.updateStatusByEndDate(
+        programRegistrationRepository.updateRegistrationStatusByEndDate(
             currentStatus = RegistrationStatus.REGISTERED,
             newStatus = RegistrationStatus.COMPLETED,
             currentDate = currentDate
