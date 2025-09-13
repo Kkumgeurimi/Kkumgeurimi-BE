@@ -32,14 +32,6 @@ class ProgramRegistration(
     val reviewMessage: String? = null
 ) : BaseTime() {
     
-    fun getCurrentStatus(): RegistrationStatus {
-        return if (isProgramCompleted()) {
-            RegistrationStatus.COMPLETED
-        } else {
-            registrationStatus
-        }
-    }
-    
     fun isProgramCompleted(): Boolean {
         return program.endDate?.let { endDate ->
             endDate.isBefore(LocalDate.now())
