@@ -1,4 +1,4 @@
-package com.kkumgeurimi.kopring.api.dto
+package com.kkumgeurimi.kopring.api.dto.career
 
 import com.kkumgeurimi.kopring.domain.career.entity.CareerAnalysis
 import java.time.format.DateTimeFormatter
@@ -28,15 +28,3 @@ data class CareerAnalysisResponse(
         }
     }
 }
-
-data class CareerBubbleMapResponse(
-    val nodes: List<CareerNodeResponse>,
-    val createdAt: String?,
-    val modifiedAt: String?
-)
-
-data class CareerNodeResponse(
-    val nodeId: String,
-    val nodeName: String,
-    val programIds: List<String>?
-)
