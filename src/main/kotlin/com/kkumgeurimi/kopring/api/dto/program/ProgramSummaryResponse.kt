@@ -1,7 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto.program
 
 import com.kkumgeurimi.kopring.domain.common.CostType
-import com.kkumgeurimi.kopring.domain.common.VenueType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
@@ -19,7 +18,6 @@ data class ProgramSummaryResponse(
     val price: String?,
     val costType: CostType?,
     val imageUrl: String?,
-    val venueType: VenueType,
     val venueRegion: String?,
     val likeCount: Long = 0,
     val registrationCount: Long = 0,
@@ -44,7 +42,6 @@ data class ProgramSummaryResponse(
                 registeredByMe = registeredByMe,
                 relatedMajor = program.relatedMajor,
                 targetAudience = program.targetAudience,
-                venueType = program.venueType,
                 venueRegion = program.venueRegion,
             )
         }
