@@ -19,13 +19,13 @@ data class ProgramSearchRequest(
     @field:Max(6)
     val programType: Int? = null,
 
-    @Schema(description = "비용", example = "FREE")
+    @Schema(description = "비용")
     val costType: CostType? = null,
 
-    @Schema(description = "시작 날짜", example = "2025-09-01")
+    @Schema(description = "시작 날짜")
     val startDate: LocalDate? = null,
 
-    @Schema(description = "종료 날짜", example = "2025-12-31")
+    @Schema(description = "종료 날짜")
     val endDate: LocalDate? = null,
 
     @Schema(description = "정렬 기준", example = "LATEST")
@@ -37,9 +37,9 @@ data class ProgramSearchRequest(
     @Schema(description = "페이지 크기", example = "10")
     val size: Int = 10,
 
-    @Schema(description = "대상 학교 (초/중/고)", example = "중")
+    @Schema(description = "대상 학교 (초/중/고)")
     val targetAudience: String? = null,
 
-    @Schema(description = "검색 키워드 (프로그램 제목/관련 전공)", example = "개발")
+    @Schema(description = "검색 키워드 (프로그램 제목/관련 전공)")
     val keyword: String? = null
 )
