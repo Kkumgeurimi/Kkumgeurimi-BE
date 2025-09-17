@@ -25,7 +25,8 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
             AND (:keyword IS NULL OR (
                 LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
-                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.provider) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%')) 
             ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
@@ -52,7 +53,8 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
             AND (:keyword IS NULL OR (
                 LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
-                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.provider) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%')) 
             ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
@@ -79,7 +81,8 @@ interface ProgramRepository : JpaRepository<Program, Long> {
             AND (:targetAudience IS NULL OR p.targetAudience LIKE CONCAT('%', :targetAudience, '%'))
              AND (:keyword IS NULL OR (
                 LOWER(p.programTitle) LIKE LOWER(CONCAT('%', :keyword, '%')) 
-                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.provider) LIKE LOWER(CONCAT('%', :keyword, '%')) 
+                OR LOWER(p.relatedMajor) LIKE LOWER(CONCAT('%', :keyword, '%')) 
             ))
             AND p.startDate >= :startDate
             AND p.endDate <= :endDate
