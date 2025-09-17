@@ -64,14 +64,7 @@ class ProgramQueryService(
             )
         }
         val programResponses = programsPage.content.map { program ->
-            val stats = programStatisticsService.getProgramStats(program)
-            ProgramSummaryResponse.from(
-                program,
-                stats.likeCount,
-                stats.registrationCount,
-                stats.likedByMe,
-                stats.registeredByMe
-            )
+            ProgramSummaryResponse.from(program)
         }
         return PageResponse(
             content = programResponses,
@@ -101,14 +94,7 @@ class ProgramQueryService(
         val oneWeekAgo = LocalDate.now().minus(1, ChronoUnit.WEEKS)
         val topPrograms = programRepository.findTop4ProgramsByOrderByProgramLikesInLastWeek(oneWeekAgo)
         return topPrograms.map { program ->
-            val stats = programStatisticsService.getProgramStats(program)
-            ProgramSummaryResponse.from(
-                program,
-                stats.likeCount,
-                stats.registrationCount,
-                stats.likedByMe,
-                stats.registeredByMe
-            )
+            ProgramSummaryResponse.from(program)
         }
     }
 
