@@ -9,6 +9,7 @@ import com.kkumgeurimi.kopring.domain.program.service.ProgramQueryService
 import com.kkumgeurimi.kopring.domain.program.service.ProgramRegistrationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "Program")
@@ -22,7 +23,7 @@ class ProgramController(
     @Operation(summary = "프로그램 검색", description = "다양한 필터와 정렬 옵션을 사용하여 프로그램을 검색합니다.")
     @GetMapping("/search")
     fun searchPrograms(
-        request: ProgramSearchRequest
+        @ParameterObject request: ProgramSearchRequest
     ): PageResponse<ProgramSummaryResponse> {
         return programQueryService.searchPrograms(request)
     }

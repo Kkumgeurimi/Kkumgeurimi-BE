@@ -38,8 +38,8 @@ data class ProgramSearchRequest(
     val size: Int = 10,
 
     @Schema(description = "대상 학교 (초/중/고)")
-    val targetAudience: String? = null,
+    val targetAudience: String = "",
 
     @Schema(description = "검색 키워드 (프로그램 제목/관련 전공)")
-    val keyword: String? = null
+    val keyword: String = ""
 )
