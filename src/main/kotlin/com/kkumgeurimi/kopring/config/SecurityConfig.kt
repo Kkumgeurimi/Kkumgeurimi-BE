@@ -63,16 +63,25 @@ class SecurityConfig {
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOriginPatterns = listOf(
-            "http://api.kkumgeurimi.r-e.kr",
+            // 프로덕션 프론트엔드
+            "https://kkumgeurimi.vercel.app",
+
+            // API 서버
             "https://api.kkumgeurimi.r-e.kr",
-            "http://localhost:3000",  // React 기본 포트
-            "http://localhost:5173",  // Vite 기본 포트
-            "http://localhost:5174",  // Vite 대체 포트
-            "http://localhost:8080",  // 백엔드 API 서버 
-            "http://127.0.0.1:3000",
+            "http://api.kkumgeurimi.r-e.kr",
+
+            // 백엔드 로컬 개발
+            "http://localhost:8080",
+            "http://127.0.0.1:8080",
+
+            // 프론트엔드 로컬 개발 (Vite)
+            "http://localhost:5173",  // 기본 포트
             "http://127.0.0.1:5173",
             "http://127.0.0.1:5174",
-            "http://127.0.0.1:8080",
+
+            // React 기본 포트
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
         )
         configuration.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
         configuration.allowedHeaders = listOf("Authorization", "Content-Type", "X-Requested-With")
