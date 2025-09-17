@@ -2,6 +2,7 @@ package com.kkumgeurimi.kopring.api.dto.program
 
 import com.kkumgeurimi.kopring.domain.common.CostType
 import com.kkumgeurimi.kopring.domain.common.InterestCategory
+import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
@@ -11,7 +12,7 @@ data class ProgramSummaryResponse(
     val programId: String,
     val programTitle: String,
     val provider: String?,
-    val programType: Int?,
+    val programTypeLabel: String?,
     val startDate: LocalDate?,
     val endDate: LocalDate?,
     val costType: CostType?,
@@ -22,18 +23,18 @@ data class ProgramSummaryResponse(
     companion object {
         fun from(program: Program): ProgramSummaryResponse {
             val interestCategoryLabel = program.interestCategory?.let { 
-                try {
-                    InterestCategory.fromCode(it).label
-                } catch (e: IllegalArgumentException) {
-                    null
-                }
+                InterestCategory.fromCode(it)?.label
+            }
+            
+            val programTypeLabel = program.programType?.let { 
+                ProgramType.fromCode(it)?.label
             }
             
             return ProgramSummaryResponse(
                 programId = program.programId,
                 programTitle = program.programTitle,
                 provider = program.provider,
-                programType = program.programType,
+                programTypeLabel = programTypeLabel,
                 startDate = program.startDate,
                 endDate = program.endDate,
                 costType = program.costType,
