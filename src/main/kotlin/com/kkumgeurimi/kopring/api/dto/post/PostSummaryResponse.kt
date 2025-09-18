@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto.post
 
-import com.kkumgeurimi.kopring.domain.community.entity.Post
+import com.kkumgeurimi.kopring.domain.community.entity.PostCategory
 import java.time.LocalDateTime
 
 // 게시글 목록 응답 DTO
@@ -11,19 +11,26 @@ data class PostSummaryResponse(
     val authorNickname: String,
     val viewCount: Int,
     val likeCount: Int,
+    val commentCount: Long,
     val createdAt: LocalDateTime?
 ) {
-    companion object {
-        fun from(post: Post): PostSummaryResponse {
-            return PostSummaryResponse(
-                id = post.postId,
-                title = post.title,
-                category = post.category.name,
-                authorNickname = post.author.nickname,
-                viewCount = post.viewCount,
-                likeCount = post.likeCount,
-                createdAt = post.createdAt
-            )
-        }
-    }
+    constructor(
+        id: Long,
+        title: String,
+        category: PostCategory,
+        authorNickname: String,
+        viewCount: Int,
+        likeCount: Int,
+        commentCount: Long,
+        createdAt: LocalDateTime
+    ) : this(
+        id,
+        title,
+        category.name,
+        authorNickname,
+        viewCount,
+        likeCount,
+        commentCount,
+        createdAt
+    )
 }
