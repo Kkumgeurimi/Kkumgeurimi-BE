@@ -1,9 +1,9 @@
 package com.kkumgeurimi.kopring.api.controller
 
+import com.kkumgeurimi.kopring.api.dto.PostCreateRequest
 import com.kkumgeurimi.kopring.api.dto.post.CommentRequest
 import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
-import com.kkumgeurimi.kopring.domain.community.entity.PostCategory
 import com.kkumgeurimi.kopring.domain.community.service.PostService
 import com.kkumgeurimi.kopring.domain.community.service.CommentService
 import com.kkumgeurimi.kopring.domain.community.service.PostLikeService
@@ -22,11 +22,9 @@ class CommunityController(
 ) {
     @PostMapping("/posts")
     fun createPost(
-        @RequestParam(required = false) title: String?,
-        @RequestParam content: String,
-        @RequestParam category: PostCategory
+        @RequestBody request: PostCreateRequest
     ): ResponseEntity<Void> {
-        postService.createPost(title, content, category)
+        postService.createPost(request.title, request.content, request.category)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
