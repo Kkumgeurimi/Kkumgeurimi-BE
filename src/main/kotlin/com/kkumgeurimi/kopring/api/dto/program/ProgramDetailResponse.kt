@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto.program
 
+import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
@@ -10,15 +11,13 @@ data class ProgramDetailResponse(
     val programTitle: String,
     val provider: String?,
     val targetAudience: String?,
-    val programType: Int?,
+    val programTypeLabel: String?,
     val startDate: LocalDate?,
     val endDate: LocalDate?,
     val relatedMajor: String?,
     val price: String?,
     val imageUrl: String?,
     val venueRegion: String?,
-    val likeCount: Long = 0,
-    val registrationCount: Long = 0,
     val likedByMe: Boolean = false,
     val registeredByMe: Boolean = false,
 
@@ -32,13 +31,13 @@ data class ProgramDetailResponse(
     val `object`: String
 ) {
     companion object {
-        fun from(program: Program, likeCount: Long, registrationCount: Long, likedByMe: Boolean, registeredByMe: Boolean, targetObject: String): ProgramDetailResponse {
+        fun from(program: Program, likedByMe: Boolean, registeredByMe: Boolean, targetObject: String): ProgramDetailResponse {
             return ProgramDetailResponse(
                 programId = program.programId,
                 programTitle = program.programTitle,
                 provider = program.provider,
                 targetAudience = program.targetAudience,
-                programType = program.programType,
+                programTypeLabel = ProgramType.fromCode(program.programType)?.label,
                 startDate = program.startDate,
                 endDate = program.endDate,
                 relatedMajor = program.relatedMajor,
@@ -48,8 +47,6 @@ data class ProgramDetailResponse(
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
                 interestCategoryLabel = getInterestCategoryLabel(program.interestCategory),
-                likeCount = likeCount,
-                registrationCount = registrationCount,
                 likedByMe = likedByMe,
                 registeredByMe = registeredByMe,
                 requiredHours = program.programDetail?.requiredHours,
