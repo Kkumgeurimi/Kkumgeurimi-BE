@@ -6,6 +6,7 @@ import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramRegistration
 import com.kkumgeurimi.kopring.domain.program.entity.RegistrationStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class MyProgramWithRegistrationStatusResponse(
     val programId: String,
@@ -18,7 +19,13 @@ data class MyProgramWithRegistrationStatusResponse(
     val imageUrl: String?,
     val venueRegion: String?,
     val interestCategoryLabel: String?,
-    val registrationStatus: RegistrationStatus?
+    val registrationStatus: RegistrationStatus?,
+
+    // 추가 필드
+    val isReviewed: Boolean,
+    val reviewScore: String?,
+    val reviewMessage: String?,
+    val experienceDate: LocalDateTime? // modifiedAt 임시 활용
 ) {
     companion object {
         fun from(registration: ProgramRegistration): MyProgramWithRegistrationStatusResponse {
@@ -43,7 +50,11 @@ data class MyProgramWithRegistrationStatusResponse(
                 imageUrl = program.imageUrl,
                 venueRegion = program.venueRegion,
                 interestCategoryLabel = interestCategoryLabel,
-                registrationStatus = registration.registrationStatus
+                registrationStatus = registration.registrationStatus,
+                isReviewed = !registration.reviewScore.isNullOrBlank() || !registration.reviewMessage.isNullOrBlank(),
+                reviewScore = registration.reviewScore,
+                reviewMessage = registration.reviewMessage,
+                experienceDate = registration.modifiedAt // BaseTime에서 상속받은 값
             )
         }
     }
