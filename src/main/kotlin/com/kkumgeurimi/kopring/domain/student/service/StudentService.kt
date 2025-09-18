@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 class StudentService(
     private val studentRepository: StudentRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val nicknameGenerator: NicknameGenerator
 ) {
     
     fun signUp(request: StudentSignUpRequest): Student {
@@ -36,12 +37,13 @@ class StudentService(
             school = request.school,
             interestCategory = request.interestCategory,
             career = request.career,
-            password = passwordEncoder.encode(request.password)
+            password = passwordEncoder.encode(request.password),
+            nickname = nicknameGenerator.generateUnique()
         )
         
         return studentRepository.save(student)
     }
-    
+
     @Transactional(readOnly = true)
     fun findById(id: Long): Student {
         return studentRepository.findById(id)
