@@ -2,12 +2,10 @@ package com.kkumgeurimi.kopring.api.controller
 
 import com.kkumgeurimi.kopring.api.dto.auth.InterestCategoryRequest
 import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
-import com.kkumgeurimi.kopring.api.dto.program.MyLikedProgramResponse
 import com.kkumgeurimi.kopring.api.dto.review.MyReviewResponse
 import com.kkumgeurimi.kopring.api.dto.student.MyStudentProfileResponse
-import com.kkumgeurimi.kopring.api.dto.program.MyProgramResponse
-import com.kkumgeurimi.kopring.api.dto.program.MyUpcomingProgramResponse
-import com.kkumgeurimi.kopring.domain.community.service.PostLikeService
+import com.kkumgeurimi.kopring.api.dto.program.MyProgramWithRegistrationStatusResponse
+import com.kkumgeurimi.kopring.api.dto.program.ProgramSummaryResponse
 import com.kkumgeurimi.kopring.domain.community.service.PostService
 import com.kkumgeurimi.kopring.domain.program.entity.RegistrationStatus
 import com.kkumgeurimi.kopring.domain.program.service.ProgramLikeService
@@ -52,21 +50,21 @@ class MyController(
     fun getMyPrograms(
         @Parameter(description = "프로그램 상태 (REGISTERED: 참여중, COMPLETED: 완료, null: 전체)")
         @RequestParam(required = false) status: RegistrationStatus?
-    ): List<MyProgramResponse> {
+    ): List<MyProgramWithRegistrationStatusResponse> {
         return programRegistrationService.getMyPrograms(status)
     }
 
     @Operation(summary = "내가 참여 예정인 프로그램 목록 조회")
     @GetMapping("/upcoming")
     fun getMyUpcomingPrograms(
-    ): List<MyUpcomingProgramResponse> {
+    ): List<ProgramSummaryResponse> {
         return programRegistrationService.getMyUpcomingPrograms()
     }
 
     @Operation(summary = "내가 찜한 프로그램 목록 조회")
     @GetMapping("/likes")
     fun getMyLikedPrograms(
-    ): List<MyLikedProgramResponse> {
+    ): List<ProgramSummaryResponse> {
         return programLikeService.getMyLikedPrograms()
     }
 

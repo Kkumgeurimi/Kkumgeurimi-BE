@@ -1,7 +1,7 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
-import com.kkumgeurimi.kopring.api.dto.program.MyProgramResponse
-import com.kkumgeurimi.kopring.api.dto.program.MyUpcomingProgramResponse
+import com.kkumgeurimi.kopring.api.dto.program.MyProgramWithRegistrationStatusResponse
+import com.kkumgeurimi.kopring.api.dto.program.ProgramSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramRegistration
@@ -38,7 +38,7 @@ class ProgramRegistrationService (
     }
 
     @Transactional(readOnly = true)
-    fun getMyPrograms(status: RegistrationStatus?): List<MyProgramResponse> {
+    fun getMyPrograms(status: RegistrationStatus?): List<MyProgramWithRegistrationStatusResponse> {
         val currentStudent = authService.getCurrentStudent()
         val registrations = when (status) {
             RegistrationStatus.REGISTERED -> {
@@ -51,17 +51,17 @@ class ProgramRegistrationService (
                 programRegistrationRepository.findByStudentWithProgramOrderByCreatedAtDesc(currentStudent)
             }
         }
-        return registrations.map { MyProgramResponse.from(it) }
+        return registrations.map { MyProgramWithRegistrationStatusResponse.from(it) }
     }
 
     @Transactional(readOnly = true)
-    fun getMyUpcomingPrograms(): List<MyUpcomingProgramResponse> {
+    fun getMyUpcomingPrograms(): List<ProgramSummaryResponse> {
         val currentStudent = authService.getCurrentStudent()
         val upcomingPrograms = programRegistrationRepository.findByStudentAndProgramStartDateAfterAndRegistrationStatusWithProgram(
             currentStudent,
             LocalDate.now(),
             RegistrationStatus.REGISTERED
         )
-        return upcomingPrograms.map { MyUpcomingProgramResponse.from(it.program) }
+        return upcomingPrograms.map { ProgramSummaryResponse.from(it.program) }
     }
 }
