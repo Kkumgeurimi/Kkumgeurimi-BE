@@ -76,4 +76,12 @@ class PostService(
         if (post.author.studentId != authService.getCurrentStudent().studentId) throw IllegalAccessException("삭제 권한 없음")
         postRepository.delete(post)
     }
+
+    @Transactional
+    fun getMyPosts(page: Int, size: Int): Page<PostSummaryResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        val posts = postRepository.findByAuthor(currentStudent, pageable)
+        return posts.map { PostSummaryResponse.from(it) }
+    }
 }
