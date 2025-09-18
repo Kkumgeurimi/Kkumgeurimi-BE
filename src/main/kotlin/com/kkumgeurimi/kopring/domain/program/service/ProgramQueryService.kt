@@ -85,12 +85,10 @@ class ProgramQueryService(
         val targetObject = extractTargetObjectForStudent(program.programDetail?.levelInfo, currentStudent)
         
         return ProgramDetailResponse.from(
-            program,
-            stats.likeCount,
-            stats.registrationCount,
-            stats.likedByMe,
-            stats.registeredByMe,
-            targetObject
+            program = program,
+            likedByMe = stats.likedByMe,
+            registeredByMe = stats.registeredByMe,
+            targetObject = targetObject
         )
     }
     
