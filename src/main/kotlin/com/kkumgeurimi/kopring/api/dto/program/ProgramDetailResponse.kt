@@ -47,7 +47,7 @@ data class ProgramDetailResponse(
                 eligibleRegion = program.eligibleRegion,
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
-                interestCategoryLabel = program.interestCategory?.let { ProgramInterestCategory.fromCode(it)?.label },
+                interestCategoryLabel = program.interestCategory?.let { InterestCategory.fromCode(it).label },
                 likedByMe = likedByMe,
                 registeredByMe = registeredByMe,
                 requiredHours = program.programDetail?.requiredHours,
