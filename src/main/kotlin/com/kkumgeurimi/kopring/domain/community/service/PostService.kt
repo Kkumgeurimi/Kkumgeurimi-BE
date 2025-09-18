@@ -1,6 +1,5 @@
 package com.kkumgeurimi.kopring.domain.community.service
 
-import com.kkumgeurimi.kopring.api.dto.post.CommentResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
@@ -36,11 +35,8 @@ class PostService(
     fun getPosts(page: Int, size: Int): Page<PostSummaryResponse> {
         val currentStudent = authService.getCurrentStudent()
         val currentStudentLevel = currentStudent.getSchoolLevel()
-        
         val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
-        
         val allPosts = postRepository.findAll(pageable)
-        
         return if (currentStudentLevel != null) {
             val filteredPosts = allPosts.content
                 .filter { post -> post.author.getSchoolLevel() == currentStudentLevel }
@@ -49,7 +45,7 @@ class PostService(
                         id = post.postId,
                         title = post.title,
                         category = post.category.name,
-                        authorGrade = post.author.calculateGrade() ?: "익명",
+                        authorNickname = post.author.nickname,
                         viewCount = post.viewCount,
                         likeCount = post.likeCount,
                         createdAt = post.createdAt
@@ -61,36 +57,17 @@ class PostService(
         }
     }
 
-    @Transactional
+    @Transactional // 조회수 증가 때문
     fun getPostDetail(postId: Long): PostDetailResponse {
-        val post = postRepository.findById(postId).orElseThrow { CustomException(ErrorCode.POST_NOT_FOUND) }
+        val post = postRepository.findPostWithComments(postId)
+            ?: throw CustomException(ErrorCode.POST_NOT_FOUND)
         val currentStudent = authService.getCurrentStudent()
         val currentStudentLevel = currentStudent.getSchoolLevel()
-        
         if (currentStudentLevel != null && post.author.getSchoolLevel() != currentStudentLevel) {
-            throw CustomException(ErrorCode.ERROR) //todo: 추가
+            throw CustomException(ErrorCode.UNAUTHORIZED_ACCESS)
         }
-        
-        post.viewCount += 1
-        
-        return PostDetailResponse(
-            id = post.postId,
-            title = post.title,
-            content = post.content,
-            category = post.category.name,
-            authorGrade = post.author.calculateGrade() ?: "익명",
-            viewCount = post.viewCount,
-            likeCount = post.likeCount,
-            createdAt = post.createdAt,
-            comments = post.comments.map { 
-                CommentResponse(
-                    id = it.id,
-                    content = it.content,
-                    authorGrade = it.author.calculateGrade() ?: "익명",
-                    createdAt = it.createdAt
-                )
-            }
-        )
+        post.viewCount += 1 // TODO: 추후 리팩토링
+        return PostDetailResponse.from(post, currentStudent.studentId)
     }
 
     @Transactional
@@ -98,5 +75,13 @@ class PostService(
         val post = postRepository.findById(postId).orElseThrow { CustomException(ErrorCode.POST_NOT_FOUND) }
         if (post.author.studentId != authService.getCurrentStudent().studentId) throw IllegalAccessException("삭제 권한 없음")
         postRepository.delete(post)
+    }
+
+    @Transactional
+    fun getMyPosts(page: Int, size: Int): Page<PostSummaryResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        val posts = postRepository.findByAuthor(currentStudent, pageable)
+        return posts.map { PostSummaryResponse.from(it) }
     }
 }

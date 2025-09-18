@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.api.controller
 
-import com.kkumgeurimi.kopring.api.dto.PostCreateRequest
+import com.kkumgeurimi.kopring.api.dto.post.PostCreateRequest
 import com.kkumgeurimi.kopring.api.dto.post.CommentRequest
 import com.kkumgeurimi.kopring.api.dto.post.PostDetailResponse
 import com.kkumgeurimi.kopring.api.dto.post.PostSummaryResponse

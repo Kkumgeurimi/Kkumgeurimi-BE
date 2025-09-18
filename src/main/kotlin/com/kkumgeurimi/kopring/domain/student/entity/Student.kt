@@ -54,6 +54,9 @@ class Student(
     @Column(name = "career", columnDefinition = "TEXT")
     var career: String? = null,
 
+    @Column(name = "nickname", length = 100)
+    var nickname: String = "익명",
+
     @JsonIgnore
     @field:NotBlank(message = "비밀번호는 필수입니다")
     @field:Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다")
