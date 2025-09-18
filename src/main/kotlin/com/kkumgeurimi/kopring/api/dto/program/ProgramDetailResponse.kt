@@ -1,5 +1,6 @@
 package com.kkumgeurimi.kopring.api.dto.program
 
+import com.kkumgeurimi.kopring.domain.common.InterestCategory
 import com.kkumgeurimi.kopring.domain.common.ProgramType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
@@ -46,24 +47,13 @@ data class ProgramDetailResponse(
                 eligibleRegion = program.eligibleRegion,
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
-                interestCategoryLabel = getInterestCategoryLabel(program.interestCategory),
+                interestCategoryLabel = program.interestCategory?.let { ProgramInterestCategory.fromCode(it)?.label },
                 likedByMe = likedByMe,
                 registeredByMe = registeredByMe,
                 requiredHours = program.programDetail?.requiredHours,
                 availHours = program.programDetail?.availHours,
                 `object` = targetObject
             )
-        }
-        
-        private fun getInterestCategoryLabel(interestCategory: Int?): String? {
-            return when (interestCategory) {
-                1 -> "과학"
-                2 -> "기술"
-                4 -> "공학"
-                8 -> "예술"
-                16 -> "수학"
-                else -> null
-            }
         }
     }
 }
