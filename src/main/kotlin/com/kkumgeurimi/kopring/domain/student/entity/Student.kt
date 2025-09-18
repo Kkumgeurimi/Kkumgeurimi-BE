@@ -76,41 +76,7 @@ class Student(
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var chatMessages: MutableList<ChatMessage> = mutableListOf()
 
-    fun calculateGrade(): String? {
-        if (birth.isNullOrBlank()) return null
-        
-        return try {
-            val birthDate = LocalDate.parse(birth, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-            val currentYear = LocalDate.now().year
-            val age = currentYear - birthDate.year
-            
-            when (age) {
-                8 -> "초1"
-                9 -> "초2"
-                10 -> "초3"
-                11 -> "초4"
-                12 -> "초5"
-                13 -> "초6"
-                14 -> "중1"
-                15 -> "중2"
-                16 -> "중3"
-                17 -> "고1"
-                18 -> "고2"
-                19 -> "고3"
-                else -> null
-            }
-        } catch (e: Exception) {
-            null
-        }
-    }
-
     fun getSchoolLevel(): String? {
-        val grade = calculateGrade()
-        return when {
-            grade?.contains("초") == true -> "초등학교"
-            grade?.contains("중") == true -> "중학교"
-            grade?.contains("고") == true -> "고등학교"
-            else -> null
-        }
+        return school
     }
 }

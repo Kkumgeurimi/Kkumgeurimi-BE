@@ -30,7 +30,7 @@ class CommunityController(
 
     @GetMapping("/posts")
     fun getPosts(
-        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "1") page: Int,
         @RequestParam(defaultValue = "10") size: Int
     ): Page<PostSummaryResponse> {
         return postService.getPosts(page, size)
