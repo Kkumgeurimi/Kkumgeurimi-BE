@@ -34,13 +34,4 @@ class PostLikeService(
         // 카운트 증가
         post.likeCount += 1
     }
-
-    @Transactional
-    fun getMyLikedPosts(page: Int, size: Int): Page<PostSummaryResponse> {
-        val currentStudent = authService.getCurrentStudent()
-        val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
-        val postLikes = postLikeRepository.findByStudent(currentStudent, pageable)
-        return postLikes.map { PostSummaryResponse.from(it.post) }
-    }
-
 }

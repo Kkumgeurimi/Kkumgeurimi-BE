@@ -32,8 +32,7 @@ class MyController(
     private val programRegistrationService: ProgramRegistrationService,
     private val programLikeService: ProgramLikeService,
     private val reviewService: ReviewService,
-    private val postService: PostService,
-    private val postLikeService: PostLikeService
+    private val postService: PostService
 ) {
     @Operation(summary = "현재 유저(학생)의 관심사 설정")
     @PostMapping("/interests")
@@ -99,6 +98,6 @@ class MyController(
         @RequestParam(defaultValue = "1") page: Int,
         @RequestParam(defaultValue = "10") size: Int
     ): Page<PostSummaryResponse> {
-        return postLikeService.getMyLikedPosts(page-1, size)
+        return postService.getMyLikedPosts(page-1, size)
     }
 }

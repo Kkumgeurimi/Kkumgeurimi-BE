@@ -35,26 +35,8 @@ class PostService(
     fun getPosts(page: Int, size: Int): Page<PostSummaryResponse> {
         val currentStudent = authService.getCurrentStudent()
         val currentStudentLevel = currentStudent.getSchoolLevel()
-        val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
-        val allPosts = postRepository.findAll(pageable)
-        return if (currentStudentLevel != null) {
-            val filteredPosts = allPosts.content
-                .filter { post -> post.author.getSchoolLevel() == currentStudentLevel }
-                .map { post -> 
-                    PostSummaryResponse(
-                        id = post.postId,
-                        title = post.title,
-                        category = post.category.name,
-                        authorNickname = post.author.nickname,
-                        viewCount = post.viewCount,
-                        likeCount = post.likeCount,
-                        createdAt = post.createdAt
-                    )
-                }
-            PageImpl(filteredPosts, pageable, filteredPosts.size.toLong())
-        } else {
-            allPosts.map { PostSummaryResponse.from(it) }
-        }
+        val pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        return postRepository.findAllWithCommentCount(currentStudentLevel, pageable)
     }
 
     @Transactional // 조회수 증가 때문
@@ -80,8 +62,14 @@ class PostService(
     @Transactional
     fun getMyPosts(page: Int, size: Int): Page<PostSummaryResponse> {
         val currentStudent = authService.getCurrentStudent()
-        val pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
-        val posts = postRepository.findByAuthor(currentStudent, pageable)
-        return posts.map { PostSummaryResponse.from(it) }
+        val pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        return postRepository.findByAuthorWithCommentCount(currentStudent, pageable)
+    }
+
+    @Transactional
+    fun getMyLikedPosts(page: Int, size: Int): Page<PostSummaryResponse> {
+        val currentStudent = authService.getCurrentStudent()
+        val pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        return postRepository.findLikedPostsByStudent(currentStudent, pageable)
     }
 }
