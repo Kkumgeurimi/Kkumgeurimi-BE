@@ -1,6 +1,6 @@
 package com.kkumgeurimi.kopring.domain.program.service
 
-import com.kkumgeurimi.kopring.api.dto.program.MyLikedProgramResponse
+import com.kkumgeurimi.kopring.api.dto.program.ProgramSummaryResponse
 import com.kkumgeurimi.kopring.api.exception.CustomException
 import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.program.entity.ProgramLike
@@ -42,9 +42,9 @@ class ProgramLikeService(
     }
 
     @Transactional(readOnly = true)
-    fun getMyLikedPrograms(): List<MyLikedProgramResponse> {
+    fun getMyLikedPrograms(): List<ProgramSummaryResponse> {
         val currentStudent = authService.getCurrentStudent()
         val likedPrograms = programLikeRepository.findByStudentWithProgram(currentStudent)
-        return likedPrograms.map { MyLikedProgramResponse.from(it.program) }
+        return likedPrograms.map { ProgramSummaryResponse.from(it.program) }
     }
 }
