@@ -9,6 +9,7 @@ import com.kkumgeurimi.kopring.api.exception.ErrorCode
 import com.kkumgeurimi.kopring.domain.common.SortBy
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import com.kkumgeurimi.kopring.domain.program.repository.ProgramRepository
+import com.kkumgeurimi.kopring.domain.student.entity.Student
 import com.kkumgeurimi.kopring.domain.student.service.AuthService
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -93,7 +94,7 @@ class ProgramQueryService(
         )
     }
     
-    private fun extractTargetObjectForStudent(levelInfo: String?, student: com.kkumgeurimi.kopring.domain.student.entity.Student?): String {
+    private fun extractTargetObjectForStudent(levelInfo: String?, student: Student?): String {
         if (levelInfo.isNullOrBlank()) {
             return "등록된 설명이 없습니다"
         }

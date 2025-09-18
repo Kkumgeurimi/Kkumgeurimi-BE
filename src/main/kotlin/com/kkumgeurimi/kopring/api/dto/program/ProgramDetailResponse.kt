@@ -1,6 +1,5 @@
 package com.kkumgeurimi.kopring.api.dto.program
 
-import com.kkumgeurimi.kopring.domain.common.CostType
 import com.kkumgeurimi.kopring.domain.program.entity.Program
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
@@ -16,7 +15,6 @@ data class ProgramDetailResponse(
     val endDate: LocalDate?,
     val relatedMajor: String?,
     val price: String?,
-    val costType: CostType?,
     val imageUrl: String?,
     val venueRegion: String?,
     val likeCount: Long = 0,
@@ -26,13 +24,10 @@ data class ProgramDetailResponse(
 
     // 프로그램 상세
     val eligibleRegion: String?,
-    val interestCategory: Int?,
+    val interestCategoryLabel: String?,
     val operateCycle: String?,
-    val description: String?,
     val requiredHours: String?,
     val availHours: String?,
-    val capacity: Int?,
-    val targetSchoolType: String?,
     
     val `object`: String
 ) {
@@ -48,23 +43,30 @@ data class ProgramDetailResponse(
                 endDate = program.endDate,
                 relatedMajor = program.relatedMajor,
                 price = program.price,
-                costType = program.costType,
                 imageUrl = program.imageUrl,
                 eligibleRegion = program.eligibleRegion,
                 venueRegion = program.venueRegion,
                 operateCycle = program.operateCycle,
-                interestCategory = program.interestCategory,
+                interestCategoryLabel = getInterestCategoryLabel(program.interestCategory),
                 likeCount = likeCount,
                 registrationCount = registrationCount,
                 likedByMe = likedByMe,
                 registeredByMe = registeredByMe,
-                description = program.programDetail?.description,
                 requiredHours = program.programDetail?.requiredHours,
                 availHours = program.programDetail?.availHours,
-                capacity = program.programDetail?.capacity,
-                targetSchoolType = program.programDetail?.targetSchoolType,
                 `object` = targetObject
             )
+        }
+        
+        private fun getInterestCategoryLabel(interestCategory: Int?): String? {
+            return when (interestCategory) {
+                1 -> "과학"
+                2 -> "기술"
+                4 -> "공학"
+                8 -> "예술"
+                16 -> "수학"
+                else -> null
+            }
         }
     }
 }
