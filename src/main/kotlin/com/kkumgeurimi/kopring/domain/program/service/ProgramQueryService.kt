@@ -80,13 +80,89 @@ class ProgramQueryService(
     fun getProgramDetail(programId: String): ProgramDetailResponse {
         val program = getProgramById(programId)
         val stats = programStatisticsService.getProgramStats(program)
+        val currentStudent = authService.getCurrentStudentOrNull()
+        val targetObject = extractTargetObjectForStudent(program.programDetail?.levelInfo, currentStudent)
+        
         return ProgramDetailResponse.from(
             program,
             stats.likeCount,
             stats.registrationCount,
             stats.likedByMe,
-            stats.registeredByMe
+            stats.registeredByMe,
+            targetObject
         )
+    }
+    
+    private fun extractTargetObjectForStudent(levelInfo: String?, student: com.kkumgeurimi.kopring.domain.student.entity.Student?): String {
+        if (levelInfo.isNullOrBlank()) {
+            return "등록된 설명이 없습니다"
+        }
+        
+        val studentSchoolType = student?.school?.let { school ->
+            when {
+                school.contains("초등학교") || school.contains("초") -> "초등학교"
+                school.contains("중학교") || school.contains("중") -> "중학교"
+                school.contains("고등학교") || school.contains("고") -> "고등학교"
+                else -> null
+            }
+        }
+        
+        // 학생의 학교 타입이 있는 경우, 해당 타입에 맞는 설명 찾기
+        if (studentSchoolType != null) {
+            val lines = levelInfo.split("\n", "\r\n", "\r")
+            for (line in lines) {
+                if (line.contains(studentSchoolType)) {
+                    // "초등학교: 목표내용" 형태에서 목표내용만 추출
+                    val colonIndex = line.indexOf(":")
+                    if (colonIndex != -1 && colonIndex < line.length - 1) {
+                        return line.substring(colonIndex + 1).trim()
+                    }
+                    // 콜론이 없는 경우 학교타입 이후의 내용을 반환
+                    val schoolTypeIndex = line.indexOf(studentSchoolType)
+                    if (schoolTypeIndex != -1) {
+                        val afterSchoolType = line.substring(schoolTypeIndex + studentSchoolType.length).trim()
+                        if (afterSchoolType.isNotEmpty()) {
+                            return afterSchoolType
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 학생의 학교 타입이 없거나 해당 타입에 맞는 설명이 없는 경우
+        return getLongestDescription(levelInfo)
+    }
+    
+    private fun getLongestDescription(text: String): String {
+        val lines = text.split("\n", "\r\n", "\r")
+        val schoolDescriptions = mutableListOf<String>()
+        
+        for (line in lines) {
+            val trimmedLine = line.trim()
+            if (trimmedLine.isEmpty()) continue
+            
+            // "초등학교:", "중학교:", "고등학교:" 등의 레이블 제거
+            val schoolTypes = listOf("초등학교:", "중학교:", "고등학교:")
+            var description = trimmedLine
+            
+            for (schoolType in schoolTypes) {
+                if (trimmedLine.startsWith(schoolType)) {
+                    description = trimmedLine.substring(schoolType.length).trim()
+                    break
+                }
+            }
+            
+            if (description.isNotEmpty()) {
+                schoolDescriptions.add(description)
+            }
+        }
+        
+        // 가장 긴 설명 반환
+        return if (schoolDescriptions.isNotEmpty()) {
+            schoolDescriptions.maxByOrNull { it.length } ?: "등록된 설명이 없습니다"
+        } else {
+            "등록된 설명이 없습니다"
+        }
     }
 
     // 일주일 간의 프로그램 찜 증가량 기준으로 인기도 측정

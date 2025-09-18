@@ -24,7 +24,7 @@ data class ProgramDetailResponse(
     val likedByMe: Boolean = false,
     val registeredByMe: Boolean = false,
 
-    // 상세 전용 필드들
+    // 프로그램 상세
     val eligibleRegion: String?,
     val interestCategory: Int?,
     val operateCycle: String?,
@@ -33,10 +33,12 @@ data class ProgramDetailResponse(
     val availHours: String?,
     val capacity: Int?,
     val targetSchoolType: String?,
-    val levelInfo: String?
+    val levelInfo: String?,
+    
+    val `object`: String
 ) {
     companion object {
-        fun from(program: Program, likeCount: Long, registrationCount: Long, likedByMe: Boolean, registeredByMe: Boolean): ProgramDetailResponse {
+        fun from(program: Program, likeCount: Long, registrationCount: Long, likedByMe: Boolean, registeredByMe: Boolean, targetObject: String): ProgramDetailResponse {
             return ProgramDetailResponse(
                 programId = program.programId,
                 programTitle = program.programTitle,
@@ -62,7 +64,8 @@ data class ProgramDetailResponse(
                 availHours = program.programDetail?.availHours,
                 capacity = program.programDetail?.capacity,
                 targetSchoolType = program.programDetail?.targetSchoolType,
-                levelInfo = program.programDetail?.levelInfo
+                levelInfo = program.programDetail?.levelInfo,
+                `object` = targetObject
             )
         }
     }
