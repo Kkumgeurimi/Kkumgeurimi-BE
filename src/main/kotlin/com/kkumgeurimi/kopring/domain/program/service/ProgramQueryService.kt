@@ -112,16 +112,35 @@ class ProgramQueryService(
             val lines = levelInfo.split("\n", "\r\n", "\r")
             for (line in lines) {
                 if (line.contains(studentSchoolType)) {
-                    // "초등학교: 목표내용" 형태에서 목표내용만 추출
+                    // JSON 형태인지 확인 후 "목표" 필드 추출
+                    if (line.contains("\"목표\"")) {
+                        val targetStart = line.indexOf("\"목표\":")
+                        if (targetStart != -1) {
+                            val valueStart = line.indexOf("\"", targetStart + 5) // "목표": 다음의 " 찾기
+                            if (valueStart != -1) {
+                                val valueEnd = line.indexOf("\"", valueStart + 1) // 값의 끝 " 찾기
+                                if (valueEnd != -1) {
+                                    return line.substring(valueStart + 1, valueEnd)
+                                }
+                            }
+                        }
+                    }
+                    
+                    // 일반 텍스트 형태 "초등학교: 목표내용" 처리
                     val colonIndex = line.indexOf(":")
                     if (colonIndex != -1 && colonIndex < line.length - 1) {
-                        return line.substring(colonIndex + 1).trim()
+                        val content = line.substring(colonIndex + 1).trim()
+                        // JSON 객체가 아닌 일반 텍스트인 경우만 반환
+                        if (!content.startsWith("{")) {
+                            return content
+                        }
                     }
+                    
                     // 콜론이 없는 경우 학교타입 이후의 내용을 반환
                     val schoolTypeIndex = line.indexOf(studentSchoolType)
                     if (schoolTypeIndex != -1) {
                         val afterSchoolType = line.substring(schoolTypeIndex + studentSchoolType.length).trim()
-                        if (afterSchoolType.isNotEmpty()) {
+                        if (afterSchoolType.isNotEmpty() && !afterSchoolType.startsWith("{")) {
                             return afterSchoolType
                         }
                     }
@@ -141,7 +160,25 @@ class ProgramQueryService(
             val trimmedLine = line.trim()
             if (trimmedLine.isEmpty()) continue
             
-            // "초등학교:", "중학교:", "고등학교:" 등의 레이블 제거
+            // JSON 형태에서 목표 추출 시도
+            if (trimmedLine.contains("\"목표\"")) {
+                val targetStart = trimmedLine.indexOf("\"목표\":")
+                if (targetStart != -1) {
+                    val valueStart = trimmedLine.indexOf("\"", targetStart + 5)
+                    if (valueStart != -1) {
+                        val valueEnd = trimmedLine.indexOf("\"", valueStart + 1)
+                        if (valueEnd != -1) {
+                            val target = trimmedLine.substring(valueStart + 1, valueEnd)
+                            if (target.isNotEmpty()) {
+                                schoolDescriptions.add(target)
+                                continue
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // 일반 텍스트 형태 처리
             val schoolTypes = listOf("초등학교:", "중학교:", "고등학교:")
             var description = trimmedLine
             
@@ -152,7 +189,7 @@ class ProgramQueryService(
                 }
             }
             
-            if (description.isNotEmpty()) {
+            if (description.isNotEmpty() && !description.startsWith("{")) {
                 schoolDescriptions.add(description)
             }
         }

@@ -33,7 +33,6 @@ data class ProgramDetailResponse(
     val availHours: String?,
     val capacity: Int?,
     val targetSchoolType: String?,
-    val levelInfo: String?,
     
     val `object`: String
 ) {
@@ -64,7 +63,6 @@ data class ProgramDetailResponse(
                 availHours = program.programDetail?.availHours,
                 capacity = program.programDetail?.capacity,
                 targetSchoolType = program.programDetail?.targetSchoolType,
-                levelInfo = program.programDetail?.levelInfo,
                 `object` = targetObject
             )
         }
