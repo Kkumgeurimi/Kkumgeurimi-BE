@@ -43,15 +43,13 @@ class MyController(
     }
     
     @Operation(
-        summary = "내가 참여중인/완료한 프로그램 목록 조회", 
-        description = "status 파라미터로 참여중/완료 상태를 필터링할 수 있습니다."
+        summary = "내가 완료한 프로그램 목록 조회", 
+        description = "완료한 프로그램 목록을 조회합니다."
     )
-    @GetMapping("/programs")
-    fun getMyPrograms(
-        @Parameter(description = "프로그램 상태 (REGISTERED: 참여중, COMPLETED: 완료, null: 전체)")
-        @RequestParam(required = false) status: RegistrationStatus?
+    @GetMapping("/completed")
+    fun getMyCompletedPrograms(
     ): List<MyProgramWithRegistrationStatusResponse> {
-        return programRegistrationService.getMyPrograms(status)
+        return programRegistrationService.getMyCompletedPrograms()
     }
 
     @Operation(summary = "내가 참여 예정인 프로그램 목록 조회")

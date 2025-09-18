@@ -38,19 +38,9 @@ class ProgramRegistrationService (
     }
 
     @Transactional(readOnly = true)
-    fun getMyPrograms(status: RegistrationStatus?): List<MyProgramWithRegistrationStatusResponse> {
+    fun getMyCompletedPrograms(): List<MyProgramWithRegistrationStatusResponse> {
         val currentStudent = authService.getCurrentStudent()
-        val registrations = when (status) {
-            RegistrationStatus.REGISTERED -> {
-                programRegistrationRepository.findByStudentAndStatusWithProgramOrderByCreatedAtDesc(currentStudent, RegistrationStatus.REGISTERED)
-            }
-            RegistrationStatus.COMPLETED -> {
-                programRegistrationRepository.findByStudentAndStatusWithProgramOrderByCreatedAtDesc(currentStudent, RegistrationStatus.COMPLETED)
-            }
-            null -> {
-                programRegistrationRepository.findByStudentWithProgramOrderByCreatedAtDesc(currentStudent)
-            }
-        }
+        val registrations = programRegistrationRepository.findByStudentAndStatusWithProgramOrderByCreatedAtDesc(currentStudent, RegistrationStatus.COMPLETED)
         return registrations.map { MyProgramWithRegistrationStatusResponse.from(it) }
     }
 
