@@ -15,6 +15,7 @@ data class MyProgramWithRegistrationStatusResponse(
     val imageUrl: String?,
     val interestCategoryLabel: String?,
     val registrationStatus: RegistrationStatus?,
+    val programRegistrationId: Long,
 
     // 추가 필드
     val isReviewed: Boolean,
@@ -39,6 +40,7 @@ data class MyProgramWithRegistrationStatusResponse(
                 imageUrl = program.imageUrl,
                 interestCategoryLabel = interestCategoryLabel,
                 registrationStatus = registration.registrationStatus,
+                programRegistrationId = registration.programRegistrationId,
                 isReviewed = !registration.reviewScore.isNullOrBlank() || !registration.reviewMessage.isNullOrBlank(),
                 reviewScore = registration.reviewScore,
                 reviewMessage = registration.reviewMessage,
