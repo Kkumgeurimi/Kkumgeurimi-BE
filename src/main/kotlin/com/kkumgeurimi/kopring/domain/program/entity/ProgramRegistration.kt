@@ -33,9 +33,7 @@ class ProgramRegistration(
 ) : BaseTime() {
     
     fun isProgramCompleted(): Boolean {
-        return program.endDate?.let { endDate ->
-            endDate.isBefore(LocalDate.now())
-        } ?: false
+        return registrationStatus == RegistrationStatus.COMPLETED
     }
 }
 
