@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface ProgramRepository : JpaRepository<Program, Long> {
 
@@ -102,13 +103,12 @@ interface ProgramRepository : JpaRepository<Program, Long> {
     @Query("""
         SELECT p
         FROM Program p
-        LEFT JOIN p.programLikes pl
-        WHERE pl.createdAt >= :oneWeekAgo
-        GROUP BY p.programId
+        LEFT JOIN p.programLikes pl ON pl.createdAt >= :oneWeekAgo
+        GROUP BY p
         ORDER BY COUNT(pl) DESC
     """)
     fun findTopProgramsByOrderByProgramLikesInLastWeek(
-        @Param("oneWeekAgo") oneWeekAgo: LocalDate,
+        @Param("oneWeekAgo") oneWeekAgo: LocalDateTime,
         pageable: Pageable
     ): List<Program>
 }

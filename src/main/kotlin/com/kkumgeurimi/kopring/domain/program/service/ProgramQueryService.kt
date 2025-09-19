@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 
 @Service
@@ -203,7 +204,7 @@ class ProgramQueryService(
 
     // 일주일 간의 프로그램 찜 증가량 기준으로 인기도 측정
     fun getTrendingPrograms(limit: Int = 4): List<ProgramSummaryResponse> {
-        val oneWeekAgo = LocalDate.now().minus(1, ChronoUnit.WEEKS)
+        val oneWeekAgo = LocalDateTime.now().minus(1, ChronoUnit.WEEKS)
         val pageable = PageRequest.of(0, limit)
         val topPrograms = programRepository.findTopProgramsByOrderByProgramLikesInLastWeek(oneWeekAgo, pageable)
         return topPrograms.map { program ->
