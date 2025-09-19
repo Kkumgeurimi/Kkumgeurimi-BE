@@ -36,11 +36,12 @@ class ProgramController(
         return programQueryService.getProgramDetail(programId)
     }
 
-    @Operation(summary = "근 일주일간의 인기 프로그램 4개 조회")
+    @Operation(summary = "근 일주일간의 인기 프로그램 조회(기본값 4)")
     @GetMapping("/trending")
     fun getTrendingPrograms(
+        @RequestParam(defaultValue = "4") limit: Int
     ): List<ProgramSummaryResponse> {
-        return programQueryService.getTrendingPrograms()
+        return programQueryService.getTrendingPrograms(limit)
     }
 
     @Operation(summary = "프로그램 신청")

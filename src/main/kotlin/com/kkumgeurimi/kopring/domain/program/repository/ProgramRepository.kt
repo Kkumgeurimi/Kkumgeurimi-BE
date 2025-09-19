@@ -107,5 +107,8 @@ interface ProgramRepository : JpaRepository<Program, Long> {
         GROUP BY p.programId
         ORDER BY COUNT(pl) DESC
     """)
-    fun findTop4ProgramsByOrderByProgramLikesInLastWeek(@Param("oneWeekAgo") oneWeekAgo: LocalDate): List<Program>
+    fun findTopProgramsByOrderByProgramLikesInLastWeek(
+        @Param("oneWeekAgo") oneWeekAgo: LocalDate,
+        pageable: Pageable
+    ): List<Program>
 }

@@ -202,9 +202,10 @@ class ProgramQueryService(
     }
 
     // 일주일 간의 프로그램 찜 증가량 기준으로 인기도 측정
-    fun getTrendingPrograms(): List<ProgramSummaryResponse> {
+    fun getTrendingPrograms(limit: Int = 4): List<ProgramSummaryResponse> {
         val oneWeekAgo = LocalDate.now().minus(1, ChronoUnit.WEEKS)
-        val topPrograms = programRepository.findTop4ProgramsByOrderByProgramLikesInLastWeek(oneWeekAgo)
+        val pageable = PageRequest.of(0, limit)
+        val topPrograms = programRepository.findTopProgramsByOrderByProgramLikesInLastWeek(oneWeekAgo, pageable)
         return topPrograms.map { program ->
             ProgramSummaryResponse.from(program)
         }
