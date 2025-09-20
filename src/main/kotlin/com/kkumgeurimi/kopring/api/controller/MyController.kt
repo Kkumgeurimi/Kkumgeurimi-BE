@@ -74,7 +74,7 @@ class MyController(
     }
 
     @Operation(summary = "내 학교 레벨 조회")
-    @GetMapping
+    @GetMapping("/schoollevel")
     fun getMySchoolLevel(
     ): String {
         return studentService.getMySchoolLevel()
