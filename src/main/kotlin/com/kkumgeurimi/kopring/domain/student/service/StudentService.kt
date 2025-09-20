@@ -71,4 +71,9 @@ class StudentService(
         val currentStudent = authService.getCurrentStudent()
         return MyStudentProfileResponse.from(currentStudent)
     }
+
+    @Transactional(readOnly = true)
+    fun getMySchoolLevel(): String {
+        return authService.getCurrentStudent().getSchoolLevel()
+    }
 }
