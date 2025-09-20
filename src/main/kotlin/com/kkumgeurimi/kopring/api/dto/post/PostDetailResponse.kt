@@ -12,6 +12,7 @@ data class PostDetailResponse(
     val viewCount: Int,
     val likeCount: Int,
     val createdAt: LocalDateTime?,
+    val isAuthor: Boolean,
     val comments: List<CommentResponse>
 ) {
     companion object {
@@ -25,6 +26,7 @@ data class PostDetailResponse(
                 viewCount = post.viewCount,
                 likeCount = post.likeCount,
                 createdAt = post.createdAt,
+                isAuthor = currentStudentId != null && post.author.studentId == currentStudentId,
                 comments = post.comments.map {
                     CommentResponse(
                         id = it.id,
