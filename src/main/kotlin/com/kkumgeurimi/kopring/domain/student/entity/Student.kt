@@ -76,7 +76,7 @@ class Student(
     @OneToMany(mappedBy = "student", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var chatMessages: MutableList<ChatMessage> = mutableListOf()
 
-    fun getSchoolLevel(): String? {
-        return school
+    fun getSchoolLevel(): String {
+        return school?: "고"
     }
 }

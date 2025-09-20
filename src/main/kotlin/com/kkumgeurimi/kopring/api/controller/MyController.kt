@@ -75,6 +75,13 @@ class MyController(
         return studentService.getMyStudentProfile()
     }
 
+    @Operation(summary = "내 학교 레벨 조회")
+    @GetMapping
+    fun getMySchoolLevel(
+    ): String {
+        return studentService.getMySchoolLevel()
+    }
+
     @Operation(summary = "내가 작성한 리뷰 목록 조회", description = "현재 사용자가 작성한 모든 리뷰 목록을 조회합니다.")
     @GetMapping("/reviews")
     fun getMyReviews(): List<MyReviewResponse> {
