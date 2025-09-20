@@ -31,7 +31,7 @@ data class PostDetailResponse(
                         content = it.content,
                         authorNickname = it.author.nickname,
                         createdAt = it.createdAt,
-                        isAuthor = currentStudentId != null && it.author.studentId == currentStudentId
+                        isAuthor = currentStudentId != null && it.author.studentId == post.author.studentId
                     )
                 }
             )
